@@ -1,11 +1,8 @@
----
 sudo: false
 cache: bundler
 language: ruby
-bundler_args: --without development acceptance
-script: bundle exec rake test
-  - puppet --version
-  - bundle exec rake validate lint spec
+bundler_args: "--without development acceptance"
+script: bundle exec rake validate lint
 matrix:
   fast_finish: true
   include:
@@ -15,18 +12,12 @@ matrix:
     env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
   - rvm: 2.1.6
     env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
-branches:
-  only:
-  - master
-  - /^v\d/
 deploy:
   provider: puppetforge
   user: gnubilafrance
   password:
-    secure: "RnRQGQeMjUTX+fRdJPznbkqHM8wX3w1JNRrGC7Laz1UGEh0gV+HLm6sedW+eiJ+Ot34xX8a1vYt/6OJPzalyjAUpv+L9iDBtyiV9VRYaKipeGr/BgMZzkkpacLIewQcmgeLrXCJ6dHP6UojJWpuPVm+F3jDfBK5XioWhPMqI8i8="
+    secure: Jr2gk1aVstZ6RusmWChZFYfthV3wrl8FTPVuR09lrDVh3eyNJicOCS+FwCu2kXzFNFSzXGQpDWoLDNjqO7Tq/m75962wJkQdtDsivUnYKvmNWMvjI5cgDydqEcgDKxV3XtphMzpAILkr5IdfNGEV9AMXcsc/kp8UUInCaOgBDL0=
   on:
     tags: true
-    # all_branches is required to use tags
     all_branches: true
-    # Only publish the build marked with "DEPLOY_TO_FORGE"
     condition: "$DEPLOY_TO_FORGE = yes"
