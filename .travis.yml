@@ -10,8 +10,23 @@ matrix:
   fast_finish: true
   include:
   - rvm: 2.2.5
-    env: PUPPET_GEM_VERSION="~> 5.0" STRICT_VARIABLES="yes"
+    env: PUPPET_GEM_VERSION="~> 5.0" STRICT_VARIABLES="yes" DEPLOY_TO_FORGE="yes"
   - rvm: 2.2.5
     env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
   - rvm: 2.1.6
     env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
+branches:
+  only:
+  - master
+  - /^v\d/
+deploy:
+  provider: puppetforge
+  user: gnubilafrance
+  password:
+    secure: "RnRQGQeMjUTX+fRdJPznbkqHM8wX3w1JNRrGC7Laz1UGEh0gV+HLm6sedW+eiJ+Ot34xX8a1vYt/6OJPzalyjAUpv+L9iDBtyiV9VRYaKipeGr/BgMZzkkpacLIewQcmgeLrXCJ6dHP6UojJWpuPVm+F3jDfBK5XioWhPMqI8i8="
+  on:
+    tags: true
+    # all_branches is required to use tags
+    all_branches: true
+    # Only publish the build marked with "DEPLOY_TO_FORGE"
+    condition: "$DEPLOY_TO_FORGE = yes"

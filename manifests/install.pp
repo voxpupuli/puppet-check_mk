@@ -1,8 +1,8 @@
 class check_mk::install (
-  $filestore = undef,
-  $package = undef,
   $site,
   $workspace,
+  $filestore = undef,
+  $package = undef,
 ) {
   if $filestore {
     if ! defined(File[$workspace]) {

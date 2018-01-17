@@ -16,5 +16,8 @@ class check_mk::params {
     'Debian': {
       $httpd_service = 'apache2'
     }
+    default: {
+      fail("OS familly ${::osfamily} is not managed!")
+    }
   }
 }
