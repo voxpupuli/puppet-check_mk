@@ -1,7 +1,10 @@
 # check_mk
 
-[![Puppet Forge](http://img.shields.io/puppetforge/v/gnubilafrance/check_mk.svg)](https://forge.puppetlabs.com/gnubilafrance/check_mk)
-[![Build Status](https://travis-ci.org/gnubila-france/puppet-check_mk.png?branch=master)](https://travis-ci.org/gnubila-france/puppet-check_mk)
+[![License](https://img.shields.io/github/license/voxpupuli/puppet-check_mk.svg)](https://github.com/voxpupuli/puppet-check_mk/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-check_mk.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-check_mk)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/check_mk.svg)](https://forge.puppetlabs.com/puppet/check_mk)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/check_mk.svg)](https://forge.puppetlabs.com/puppet/check_mk)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/check_mk.svg)](https://forge.puppetlabs.com/puppet/check_mk)
 
 Puppet module for:
 
