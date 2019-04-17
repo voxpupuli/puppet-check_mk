@@ -1,34 +1,37 @@
 require 'spec_helper'
-describe 'check_mk::agent::mrpe', :type => :define do
+describe 'check_mk::agent::mrpe', type: :define do
   let :title do
     'checkname'
   end
+
   context 'Unsupported OS' do
     context 'with mandatory command' do
       let :params do
-        {:command => 'command'}
+        { command: 'command' }
       end
-      it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /Creating mrpe.cfg is unsupported for operatingsystem/)
+
+      it 'fails' do
+        expect { catalogue }.to raise_error(Puppet::Error, %r{Creating mrpe.cfg is unsupported for operatingsystem})
       end
     end
   end
   context 'RedHat Linux' do
     let :facts do
       {
-          :operatingsystem => 'redhat',
+        operatingsystem: 'redhat'
       }
     end
+
     context 'with mandatory command' do
       let :params do
-        {:command => 'command'}
+        { command: 'command' }
       end
-      it { should contain_check_mk__agent__mrpe('checkname') }
-      it { should contain_concat('/etc/check-mk-agent/mrpe.cfg').with_ensure('present') }
-      it { should contain_concat__fragment('checkname-mrpe-check').with({
-            :target  => '/etc/check-mk-agent/mrpe.cfg',
-            :content => /^checkname command\n$/,
-        })
+
+      it { is_expected.to contain_check_mk__agent__mrpe('checkname') }
+      it { is_expected.to contain_concat('/etc/check-mk-agent/mrpe.cfg').with_ensure('present') }
+      it {
+        is_expected.to contain_concat__fragment('checkname-mrpe-check').with(target: '/etc/check-mk-agent/mrpe.cfg',
+                                                                             content: %r{^checkname command\n$})
       }
     end
   end
