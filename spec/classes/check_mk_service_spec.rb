@@ -19,12 +19,12 @@ describe 'check_mk::service' do
         it { is_expected.to contain_class('check_mk::service') }
         it { is_expected.to contain_service(service_name).with({
           ensure: 'running',
-          enable: 'true',
+          enable: 'true'
         })
         }
         it { is_expected.to contain_service('omd').with({
           ensure: 'running',
-          enable: 'true',
+          enable: 'true'
         })
         }
       end

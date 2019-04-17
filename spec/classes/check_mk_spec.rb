@@ -12,11 +12,11 @@ describe 'check_mk' do
           filestore: nil,
           package: 'omd-0.56',
           site: 'monitoring',
-          workspace: '/root/check_mk',
+          workspace: '/root/check_mk'
         }).that_comes_before('Class[check_mk::config]') }
         it { is_expected.to contain_class('check_mk::config').with({
           host_groups: nil,
-          site: 'monitoring',
+          site: 'monitoring'
         }).that_comes_before('Class[check_mk::service]') }
         it { is_expected.to contain_class('check_mk::service') }
       end

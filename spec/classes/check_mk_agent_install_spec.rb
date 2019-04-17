@@ -14,7 +14,7 @@ describe 'check_mk::agent::install' do
               version: nil,
               filestore: nil,
               workspace: '/root/check_mk',
-              package: nil,
+              package: nil
             }
           )
           }
@@ -25,7 +25,7 @@ describe 'check_mk::agent::install' do
         context 'with custom package' do
           let :params do
             {
-              package: 'custom-package',
+              package: 'custom-package'
             }
           end
           it { is_expected.to contain_class('check_mk::agent::install') }
@@ -37,7 +37,7 @@ describe 'check_mk::agent::install' do
           context 'without version' do
             let :params do
               {
-                filestore: '/filestore',
+                filestore: '/filestore'
               }
             end
             it 'should fail' do
@@ -49,7 +49,7 @@ describe 'check_mk::agent::install' do
               {
                 version: '1.2.3',
                 filestore: '/filestore',
-                workspace: '/workspace',
+                workspace: '/workspace'
               }
             end
             it { is_expected.to contain_class('check_mk::agent::install') }
@@ -59,14 +59,14 @@ describe 'check_mk::agent::install' do
               {
                 ensure: 'present',
                 source: '/filestore/check_mk-agent-1.2.3.noarch.rpm',
-                require: 'Package[xinetd]',
+                require: 'Package[xinetd]'
               }
             ).that_comes_before('Package[check_mk-agent]')
             }
             it { is_expected.to contain_package('check_mk-agent').with(
               {
                 provider: 'rpm',
-                source: '/workspace/check_mk-agent-1.2.3.noarch.rpm',
+                source: '/workspace/check_mk-agent-1.2.3.noarch.rpm'
               }
             )
             }
@@ -82,7 +82,7 @@ describe 'check_mk::agent::install' do
         context 'with custom package' do
           let :params do
             {
-              package: 'custom-package',
+              package: 'custom-package'
             }
           end
           it { is_expected.to contain_class('check_mk::agent::install') }

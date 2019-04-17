@@ -5,7 +5,7 @@ describe 'check_mk::agent', type: :class do
       {
           kernel: 'Linux',
           operatingsystem: 'Redhat',
-          osfamily: 'Redhat',
+          osfamily: 'Redhat'
       }
     end
     context 'with defaults for all parameters' do
@@ -18,7 +18,7 @@ describe 'check_mk::agent', type: :class do
       context 'not a hash' do
         let :params do
           {
-              mrpe_checks: 'not_a_hash',
+              mrpe_checks: 'not_a_hash'
           }
         end
         it 'should fail' do
@@ -30,7 +30,7 @@ describe 'check_mk::agent', type: :class do
           {
               mrpe_checks: {
                   'check1' => {'command' => 'command1'},
-                  'check2' => {'command' => 'command2'},
+                  'check2' => {'command' => 'command2'}
               }
           }
         end

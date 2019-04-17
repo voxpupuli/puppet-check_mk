@@ -6,7 +6,7 @@ describe 'check_mk::agent::mrpe', type: :define do
   context 'Unsupported OS' do
     let :facts do
       {
-        operatingsystem: 'Solaris',
+        operatingsystem: 'Solaris'
       }
     end
 
@@ -21,7 +21,7 @@ describe 'check_mk::agent::mrpe', type: :define do
   context 'RedHat Linux' do
     let :facts do
       {
-          operatingsystem: 'redhat',
+          operatingsystem: 'redhat'
       }
     end
     context 'with mandatory command' do
@@ -32,7 +32,7 @@ describe 'check_mk::agent::mrpe', type: :define do
       it { is_expected.to contain_concat('/etc/check-mk-agent/mrpe.cfg').with_ensure('present') }
       it { is_expected.to contain_concat__fragment('checkname-mrpe-check').with({
             target: '/etc/check-mk-agent/mrpe.cfg',
-            content: /^checkname command\n$/,
+            content: /^checkname command\n$/
         })
       }
     end

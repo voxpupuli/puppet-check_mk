@@ -17,43 +17,43 @@ describe 'check_mk::config', type: :class do
           ensure: 'present',
           line: 'cfg_dir=/omd/sites/TEST_SITE/etc/nagios/local',
           path: '/omd/sites/TEST_SITE/etc/nagios/nagios.cfg',
-          notify: 'Class[Check_mk::Service]',
+          notify: 'Class[Check_mk::Service]'
       })
     }
     it { is_expected.to contain_file_line('add-guest-users').with({
           ensure: 'present',
           line: 'guest_users = [ "guest" ]',
-          path: '/omd/sites/TEST_SITE/etc/check_mk/multisite.mk',
+          path: '/omd/sites/TEST_SITE/etc/check_mk/multisite.mk'
       })
     }
     it { is_expected.to contain_file('/omd/sites/TEST_SITE/etc/check_mk/all_hosts_static').with({
           ensure: 'file',
-          content: '',
+          content: ''
       })
     }
     it { is_expected.to contain_concat('/omd/sites/TEST_SITE/etc/check_mk/main.mk').with({
           owner: 'root',
           group: 'root',
           mode: 'u=rw,go=r',
-          notify: 'Exec[check_mk-refresh]',
+          notify: 'Exec[check_mk-refresh]'
       })
     }
     it { is_expected.to contain_concat__fragment('all_hosts-header').with({
           target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
           content: /all_hosts = \[\n/,
-          order: 10,
+          order: 10
       })
     }
     it { is_expected.to contain_concat__fragment('all_hosts-footer').with({
           target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
           content: /\]\n/,
-          order: 19,
+          order: 19
       })
     }
     it { is_expected.to contain_concat__fragment('all-hosts-static').with({
           source: '/omd/sites/TEST_SITE/etc/check_mk/all_hosts_static',
           target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-          order: 18,
+          order: 18
       })
     }
     it { is_expected.not_to contain_file('/omd/sites/TEST_SITE/etc/nagios/local/hostgroups') }
@@ -63,36 +63,36 @@ describe 'check_mk::config', type: :class do
     it { is_expected.to contain_concat__fragment('check_mk-local-config').with({
           source: '/omd/sites/TEST_SITE/etc/check_mk/main.mk.local',
           target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-          order: 99,
+          order: 99
       })
     }
     it { is_expected.to contain_exec('check_mk-refresh').with({
           command: /\/bin\/su -l -c '\/omd\/sites\/TEST_SITE\/bin\/check_mk -I' TEST_SITE/,
-          refreshonly: true,
+          refreshonly: true
       })
     }
     it { is_expected.to contain_exec('check_mk-reload').with({
           command: /\/bin\/su -l -c '\/omd\/sites\/TEST_SITE\/bin\/check_mk -O' TEST_SITE/,
-          refreshonly: true,
+          refreshonly: true
       })
     }
     it { is_expected.to contain_cron('check_mk-refresh-inventory-daily').with({
           user: 'root',
           command: /su -l -c '\/omd\/sites\/TEST_SITE\/bin\/check_mk -O' TEST_SITE/,
           minute: 0,
-          hour: 0,
+          hour: 0
       })
     }
   end
   context 'with host_groups' do
     host_groups = {
         'group1' => {'host_tags' => []},
-        'group2' => {'host_tags' => []},
+        'group2' => {'host_tags' => []}
     }
     let :params do
       {
           site: 'TEST_SITE',
-          host_groups: host_groups,
+          host_groups: host_groups
       }
     end
     it { is_expected.to contain_class('check_mk::config') }
@@ -100,27 +100,27 @@ describe 'check_mk::config', type: :class do
     it { is_expected.to contain_concat__fragment('host_groups-header').with({
           target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
           content: /host_groups = \[\n/,
-          order: 20,
+          order: 20
       })
     }
     it { is_expected.to contain_concat__fragment('host_groups-footer').with({
           target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
           content: /\]\n/,
-          order: 29,
+          order: 29
       })
     }
     it { is_expected.to contain_check_mk__hostgroup('group1').with({
           dir: '/omd/sites/TEST_SITE/etc/nagios/local/hostgroups',
           hostgroups: host_groups,
           target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-          notify: 'Exec[check_mk-refresh]',
+          notify: 'Exec[check_mk-refresh]'
       })
     }
     it { is_expected.to contain_check_mk__hostgroup('group2').with({
           dir: '/omd/sites/TEST_SITE/etc/nagios/local/hostgroups',
           hostgroups: host_groups,
           target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-          notify: 'Exec[check_mk-refresh]',
+          notify: 'Exec[check_mk-refresh]'
       })
     }
   end

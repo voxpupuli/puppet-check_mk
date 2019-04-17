@@ -9,7 +9,7 @@ describe 'check_mk::agent::service', type: :class do
       it { is_expected.to contain_class('check_mk::agent::service') }
       it { is_expected.to contain_service('xinetd').with({
         ensure: 'running',
-        enable: true,
+        enable: true
       })
       }
 
@@ -18,7 +18,7 @@ describe 'check_mk::agent::service', type: :class do
         it { is_expected.to contain_service('xinetd').with({
           ensure: 'running',
           enable: true,
-          hasstatus: false,
+          hasstatus: false
         })
         }
       end

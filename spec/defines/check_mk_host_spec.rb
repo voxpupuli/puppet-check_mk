@@ -11,7 +11,7 @@ describe 'check_mk::host', type: :define do
     it { is_expected.to contain_concat__fragment('check_mk-host').with({
           target: 'target',
           content: /^  'host',\n$/,
-          order: 11,
+          order: 11
       })
     }
   end
@@ -19,14 +19,14 @@ describe 'check_mk::host', type: :define do
     let :params do
       {
           target: 'target',
-          host_tags: ['tag1', 'tag2'],
+          host_tags: ['tag1', 'tag2']
       }
     end
     it { is_expected.to contain_check_mk__host('host') }
     it { is_expected.to contain_concat__fragment('check_mk-host').with({
           target: 'target',
           content: /^  'host|tag1|tag2',\n$/,
-          order: 11,
+          order: 11
       })
     }
   end

@@ -8,7 +8,7 @@ describe 'check_mk::install_tarball', type: :class do
       {
           filestore: '/filestore',
           version: '1.2.3',
-          workspace: '/workspace',
+          workspace: '/workspace'
       }
     end
     it { is_expected.to contain_class('check_mk::install_tarball') }
@@ -28,45 +28,45 @@ describe 'check_mk::install_tarball', type: :class do
           ensure: 'present',
           owner: 'root',
           group: 'apache',
-          mode: '0640',
+          mode: '0640'
       })
     }
     it { is_expected.to contain_exec('set-nagiosadmin-password').with({
           refreshonly: true,
-          require: 'File[/etc/nagios/passwd]',
+          require: 'File[/etc/nagios/passwd]'
       })
     }
     it { is_expected.to contain_exec('set-guest-password').with({
           refreshonly: true,
-          require: 'File[/etc/nagios/passwd]',
+          require: 'File[/etc/nagios/passwd]'
       })
     }
     it { is_expected.to contain_exec('add-apache-to-nagios-group').with({
-          refreshonly: true,
+          refreshonly: true
       })
     }
     it { is_expected.to contain_package('nagios-plugins-all').with({
           ensure: 'present',
-          require: 'Package[nagios]',
+          require: 'Package[nagios]'
       })
     }
     it { is_expected.to contain_exec('unpack-check_mk-tarball').with({
           command: '/bin/tar -zxf /workspace/check_mk-1.2.3.tar.gz',
           cwd: '/workspace',
           creates: '/workspace/check_mk-1.2.3',
-          require: 'File[/workspace/check_mk-1.2.3.tar.gz]',
+          require: 'File[/workspace/check_mk-1.2.3.tar.gz]'
       })
     }
     it { is_expected.to contain_exec('change-setup-config-location').with({
           command: "/usr/bin/perl -pi -e 's#^SETUPCONF=.*?$#SETUPCONF=/workspace/check_mk_setup.conf#' /workspace/check_mk-1.2.3/setup.sh",
           unless: "/bin/egrep '^SETUPCONF=/workspace/check_mk_setup.conf$' /workspace/check_mk-1.2.3/setup.sh",
-          require: 'Exec[unpack-check_mk-tarball]',
+          require: 'Exec[unpack-check_mk-tarball]'
       })
     }
     it { is_expected.to contain_exec('remove-setup-header').with({
           command: "/usr/bin/perl -pi -e 's#^DIRINFO=.*?$#DIRINFO=#' /workspace/check_mk-1.2.3/setup.sh",
           unless: "/bin/egrep '^DIRINFO=$' /workspace/check_mk-1.2.3/setup.sh",
-          require: 'Exec[unpack-check_mk-tarball]',
+          require: 'Exec[unpack-check_mk-tarball]'
       })
     }
     it { is_expected.to contain_file('/workspace/check_mk_setup.conf').that_notifies('Exec[check_mk-setup]') }
@@ -75,14 +75,14 @@ describe 'check_mk::install_tarball', type: :class do
           owner: 'nagios',
           group: 'nagios',
           recurse: true,
-          require: 'Package[nagios]',
+          require: 'Package[nagios]'
       })
     }
     it { is_expected.to contain_file('/etc/nagios/check_mk/hostgroups').with({
           ensure: 'directory',
           owner: 'nagios',
           group: 'nagios',
-          require: 'File[/etc/nagios/check_mk]',
+          require: 'File[/etc/nagios/check_mk]'
       })
     }
     it { is_expected.to contain_exec('check_mk-setup').with({
@@ -95,9 +95,9 @@ describe 'check_mk::install_tarball', type: :class do
                'Exec[unpack-check_mk-tarball]',
                'File[/workspace/check_mk_setup.conf]',
                'File[/etc/nagios/check_mk]',
-               'Package[nagios]',
+               'Package[nagios]'
            ],
-           notify: 'Class[Check_mk::Service]',
+           notify: 'Class[Check_mk::Service]'
        })
     }
 

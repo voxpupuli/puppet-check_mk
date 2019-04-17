@@ -14,10 +14,10 @@ describe 'check_mk::hostgroup' do
           'TEST_HOSTGROUP' => {
             'host_tags' => [
               'tag1',
-              'tag2',
+              'tag2'
             ],
-            'description' => 'TEST_DESCRIPTION',
-          },
+            'description' => 'TEST_DESCRIPTION'
+          }
         }
         let :params do
           {
@@ -30,7 +30,7 @@ describe 'check_mk::hostgroup' do
         it { is_expected.to contain_concat__fragment('check_mk-hostgroup-TEST_HOSTGROUP').with({
           target: 'target',
           content: /^  \( 'TEST_HOSTGROUP', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
-          order: 21,
+          order: 21
         })
         }
         expected_file_content = <<EOS
@@ -41,7 +41,7 @@ define hostgroup {
 EOS
         it { is_expected.to contain_file('/dir/TEST_HOSTGROUP.cfg').with({
           ensure: 'file',
-          content: expected_file_content,
+          content: expected_file_content
         })
         }
       end
@@ -54,9 +54,9 @@ EOS
           'TEST_HOUSTGROUP_WITH_UNDERSCORES' => {
             'host_tags' => [
               'tag1',
-              'tag2',
-            ],
-          },
+              'tag2'
+            ]
+          }
         }
         let :params do
           {
@@ -69,7 +69,7 @@ EOS
         it { is_expected.to contain_concat__fragment('check_mk-hostgroup-TEST_HOUSTGROUP_WITH_UNDERSCORES').with({
           target: '/target',
           content: /^  \( 'TEST_HOUSTGROUP_WITH_UNDERSCORES', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
-          order: 21,
+          order: 21
         })
         }
         expected_file_content = <<EOS
@@ -80,7 +80,7 @@ define hostgroup {
 EOS
         it { is_expected.to contain_file('/dir/TEST_HOUSTGROUP_WITH_UNDERSCORES.cfg').with({
           ensure: 'file',
-          content: expected_file_content,
+          content: expected_file_content
         })
         }
       end
