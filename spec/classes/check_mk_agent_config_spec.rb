@@ -1,6 +1,5 @@
 require 'spec_helper'
 describe 'check_mk::agent::config', type: :class do
-
   context 'Redhat Linux' do
     let :facts do
       {

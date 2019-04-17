@@ -101,6 +101,5 @@ describe 'check_mk::install_tarball', type: :class do
                                                               notify: 'Class[Check_mk::Service]'
                                                             })
     }
-
   end
 end
