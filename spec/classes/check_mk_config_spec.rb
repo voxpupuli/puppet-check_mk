@@ -61,16 +61,16 @@ describe 'check_mk::config', type: :class do
                                                                             order: 99)
     }
     it {
-      is_expected.to contain_exec('check_mk-refresh').with(command: /\/bin\/su -l -c '\/omd\/sites\/TEST_SITE\/bin\/check_mk -I' TEST_SITE/,
+      is_expected.to contain_exec('check_mk-refresh').with(command: %r{/bin/su -l -c '/omd/sites/TEST_SITE/bin/check_mk -I' TEST_SITE},
                                                            refreshonly: true)
     }
     it {
-      is_expected.to contain_exec('check_mk-reload').with(command: /\/bin\/su -l -c '\/omd\/sites\/TEST_SITE\/bin\/check_mk -O' TEST_SITE/,
+      is_expected.to contain_exec('check_mk-reload').with(command: %r{/bin/su -l -c '/omd/sites/TEST_SITE/bin/check_mk -O' TEST_SITE},
                                                           refreshonly: true)
     }
     it {
       is_expected.to contain_cron('check_mk-refresh-inventory-daily').with(user: 'root',
-                                                                           command: /su -l -c '\/omd\/sites\/TEST_SITE\/bin\/check_mk -O' TEST_SITE/,
+                                                                           command: %r{su -l -c '/omd/sites/TEST_SITE/bin/check_mk -O' TEST_SITE},
                                                                            minute: 0,
                                                                            hour: 0)
     }

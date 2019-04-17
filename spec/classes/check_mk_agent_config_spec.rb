@@ -14,7 +14,7 @@ describe 'check_mk::agent::config', type: :class do
         is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
           with_content(%r{^\tport\s+ = 6556$}).
           with_content(%r{^\tuser\s+ = root$}).
-          with_content(/^\tserver\s+ = \/usr\/bin\/check_mk_agent$/).
+          with_content(%r{^\tserver\s+ = /usr/bin/check_mk_agent$}).
           without_content(%r{only_from}).
           with_notify('Class[Check_mk::Agent::Service]')
       }
@@ -29,7 +29,7 @@ describe 'check_mk::agent::config', type: :class do
 
       it {
         is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
-          with_content(/^\tserver\s+ = \/usr\/bin\/check_mk_caching_agent$/)
+          with_content(%r{^\tserver\s+ = /usr/bin/check_mk_caching_agent$})
       }
     end
     context 'with ip_whitelist' do
@@ -75,7 +75,7 @@ describe 'check_mk::agent::config', type: :class do
         is_expected.to contain_file('/etc/xinetd.d/check_mk').
           with_content(%r{^\tport\s+ = 6556$}).
           with_content(%r{^\tuser\s+ = root$}).
-          with_content(/^\tserver\s+ = \/usr\/bin\/check_mk_agent$/).
+          with_content(%r{^\tserver\s+ = /usr/bin/check_mk_agent$}).
           without_content(%r{only_from}).
           with_notify('Class[Check_mk::Agent::Service]')
       }
