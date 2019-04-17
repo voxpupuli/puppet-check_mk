@@ -164,7 +164,7 @@ host groups.
 ## Static host config
 
 Hosts that do not run Puppet with the check_mk module needs to get added to hiera.
-check_mk::config creates the config file 
+check_mk::config creates the config file
 /omd/sites/monitoring/etc/check_mk/all_hosts_static from a template.
 The template will look for hiera variables.
 The hiera variable check_mk::all_hosts_static has to be an array:
