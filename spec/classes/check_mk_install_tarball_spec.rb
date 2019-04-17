@@ -1,5 +1,8 @@
 require 'spec_helper'
 describe 'check_mk::install_tarball', :type => :class do
+  # Mock check_mk::service class.
+  let(:pre_condition) { "class check_mk::service{}\n include check_mk::service" }
+
   context 'with necessary parameters set' do
     let :params do
       {

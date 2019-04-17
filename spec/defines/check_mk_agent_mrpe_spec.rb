@@ -4,13 +4,18 @@ describe 'check_mk::agent::mrpe', :type => :define do
     'checkname'
   end
   context 'Unsupported OS' do
+    let :facts do
+      {
+        operatingsystem: 'Solaris',
+      }
+    end
+
     context 'with mandatory command' do
       let :params do
         {:command => 'command'}
       end
-      it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /Creating mrpe.cfg is unsupported for operatingsystem/)
-      end
+
+      it { is_expected.to compile.and_raise_error(%r{Creating mrpe\.cfg is unsupported for operatingsystem}) }
     end
   end
   context 'RedHat Linux' do

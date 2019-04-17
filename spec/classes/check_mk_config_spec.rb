@@ -1,5 +1,8 @@
 require 'spec_helper'
 describe 'check_mk::config', :type => :class do
+  # Mock check_mk::service class.
+  let(:pre_condition) { "class check_mk::service{}\n include check_mk::service" }
+
   context 'with site set' do
     let :params do
       {
@@ -31,7 +34,7 @@ describe 'check_mk::config', :type => :class do
     it { should contain_concat('/omd/sites/TEST_SITE/etc/check_mk/main.mk').with({
           :owner  => 'root',
           :group  => 'root',
-          :mode   => '0644',
+          :mode   => 'u=rw,go=r',
           :notify => 'Exec[check_mk-refresh]',
       })
     }
@@ -48,7 +51,7 @@ describe 'check_mk::config', :type => :class do
       })
     }
     it { should contain_concat__fragment('all-hosts-static').with({
-          :ensure => '/omd/sites/TEST_SITE/etc/check_mk/all_hosts_static',
+          :source => '/omd/sites/TEST_SITE/etc/check_mk/all_hosts_static',
           :target => '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
           :order  => 18,
       })
@@ -56,9 +59,9 @@ describe 'check_mk::config', :type => :class do
     it { should_not contain_file('/omd/sites/TEST_SITE/etc/nagios/local/hostgroups') }
     it { should_not contain_concat__fragment('host_groups-header') }
     it { should_not contain_concat__fragment('host_groups-footer') }
-    it { should_not contain_check_mk__hostgroup }
+    it { should have_check_mk__hostgroup_resource_count(0) }
     it { should contain_concat__fragment('check_mk-local-config').with({
-          :ensure => '/omd/sites/TEST_SITE/etc/check_mk/main.mk.local',
+          :source => '/omd/sites/TEST_SITE/etc/check_mk/main.mk.local',
           :target => '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
           :order  => 99,
       })

@@ -1,29 +1,27 @@
 require 'spec_helper'
 describe 'check_mk::agent::service', :type => :class do
+  on_supported_os.each do |os, facts|
+    context "on #{os}" do
+      let(:facts) do
+        facts
+      end
 
-  context 'all' do
-    it { should contain_class('check_mk::agent::service') }
-    it { should contain_service('xinetd').with({
-           :ensure => 'running',
-           :enable => true,
-       })
-    }
-  end
-
-  context 'Debian 7' do
-    let :facts do
-      {
-          :operatingsystem           => 'Debian',
-          :operatingsystemmajrelease => '7',
+      it { should contain_class('check_mk::agent::service') }
+      it { should contain_service('xinetd').with({
+        :ensure => 'running',
+        :enable => true,
+      })
       }
-    end
-    it { should contain_class('check_mk::agent::service') }
-    it { should contain_service('xinetd').with({
+
+      if facts[:osfamily] == 'Debian' and facts[:operatingsystemmajrelease] == '7'
+        it { should contain_class('check_mk::agent::service') }
+        it { should contain_service('xinetd').with({
           :ensure    => 'running',
           :enable    => true,
           :hasstatus => false,
-      })
-    }
+        })
+        }
+      end
+    end
   end
-
 end

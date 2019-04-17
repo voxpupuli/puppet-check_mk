@@ -4,9 +4,11 @@ describe 'check_mk::agent::config', :type => :class do
   context 'Redhat Linux' do
     let :facts do
       {
-          :osfamily => 'RedHat',
+        osfamily: 'RedHat',
+        operatingsystem: 'RedHat'
       }
     end
+
     context 'with defaults for all parameters' do
       it { should contain_class('check_mk::agent::config') }
       it { should contain_file('/etc/xinetd.d/check-mk-agent').
@@ -54,6 +56,14 @@ describe 'check_mk::agent::config', :type => :class do
   end
 
   context 'Other OS' do
+    let :facts do
+      {
+        osfamily: 'Debian',
+        operatingsystem: 'Debian',
+        operatingsystemmajrelease: '9'
+      }
+    end
+
     context 'with defaults for all parameters' do
       it { should contain_file('/etc/xinetd.d/check_mk').
           with_content(/^\tport\s+ = 6556$/).
