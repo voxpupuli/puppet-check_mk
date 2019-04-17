@@ -7,9 +7,6 @@ describe 'check_mk::hostgroup' do
       end
 
       context 'with hostgroups, host_tags and description' do
-        let :title do
-          'TEST_HOSTGROUP'
-        end
         hostgroups = {
           'TEST_HOSTGROUP' => {
             'host_tags' => %w[
@@ -19,6 +16,9 @@ describe 'check_mk::hostgroup' do
             'description' => 'TEST_DESCRIPTION'
           }
         }
+        let :title do
+          'TEST_HOSTGROUP'
+        end
         let :params do
           {
             dir: '/dir',
@@ -46,9 +46,6 @@ EOS
       end
 
       context 'with hostgroups without description' do
-        let :title do
-          'TEST_HOUSTGROUP_WITH_UNDERSCORES'
-        end
         hostgroups = {
           'TEST_HOUSTGROUP_WITH_UNDERSCORES' => {
             'host_tags' => %w[
@@ -57,6 +54,9 @@ EOS
             ]
           }
         }
+        let :title do
+          'TEST_HOUSTGROUP_WITH_UNDERSCORES'
+        end
         let :params do
           {
             dir: '/dir',
