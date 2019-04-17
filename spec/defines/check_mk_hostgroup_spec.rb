@@ -21,16 +21,16 @@ describe 'check_mk::hostgroup' do
         }
         let :params do
           {
-            :dir        => '/dir',
-            :hostgroups => hostgroups,
-            :target     => 'target'
+            dir: '/dir',
+            hostgroups: hostgroups,
+            target: 'target'
           }
         end
         it { should contain_check_mk__hostgroup('TEST_HOSTGROUP') }
         it { should contain_concat__fragment('check_mk-hostgroup-TEST_HOSTGROUP').with({
-          :target  => 'target',
-          :content => /^  \( 'TEST_HOSTGROUP', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
-          :order   => 21,
+          target: 'target',
+          content: /^  \( 'TEST_HOSTGROUP', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
+          order: 21,
         })
         }
         expected_file_content = <<EOS
@@ -40,8 +40,8 @@ define hostgroup {
 }
 EOS
         it { should contain_file('/dir/TEST_HOSTGROUP.cfg').with({
-          :ensure => 'file',
-          :content => expected_file_content,
+          ensure: 'file',
+          content: expected_file_content,
         })
         }
       end
@@ -60,16 +60,16 @@ EOS
         }
         let :params do
           {
-            :dir        => '/dir',
-            :hostgroups => hostgroups,
-            :target     => '/target'
+            dir: '/dir',
+            hostgroups: hostgroups,
+            target: '/target'
           }
         end
         it { should contain_check_mk__hostgroup('TEST_HOUSTGROUP_WITH_UNDERSCORES') }
         it { should contain_concat__fragment('check_mk-hostgroup-TEST_HOUSTGROUP_WITH_UNDERSCORES').with({
-          :target  => '/target',
-          :content => /^  \( 'TEST_HOUSTGROUP_WITH_UNDERSCORES', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
-          :order   => 21,
+          target: '/target',
+          content: /^  \( 'TEST_HOUSTGROUP_WITH_UNDERSCORES', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
+          order: 21,
         })
         }
         expected_file_content = <<EOS
@@ -79,8 +79,8 @@ define hostgroup {
 }
 EOS
         it { should contain_file('/dir/TEST_HOUSTGROUP_WITH_UNDERSCORES.cfg').with({
-          :ensure  => 'file',
-          :content => expected_file_content,
+          ensure: 'file',
+          content: expected_file_content,
         })
         }
       end

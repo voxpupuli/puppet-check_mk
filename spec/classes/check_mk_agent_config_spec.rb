@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'check_mk::agent::config', :type => :class do
+describe 'check_mk::agent::config', type: :class do
 
   context 'Redhat Linux' do
     let :facts do
@@ -23,7 +23,7 @@ describe 'check_mk::agent::config', :type => :class do
     context 'with use_cache' do
       let :params do
         {
-            :use_cache => true,
+            use_cache: true,
         }
       end
       it { should contain_file('/etc/xinetd.d/check-mk-agent').
@@ -33,7 +33,7 @@ describe 'check_mk::agent::config', :type => :class do
     context 'with ip_whitelist' do
       let :params do
         {
-            :ip_whitelist => [
+            ip_whitelist: [
                 '1.2.3.4',
                 '5.6.7.8',
             ],
@@ -46,7 +46,7 @@ describe 'check_mk::agent::config', :type => :class do
     context 'with custom user' do
       let :params do
         {
-            :user => 'custom',
+            user: 'custom',
         }
       end
       it { should contain_file('/etc/xinetd.d/check-mk-agent').
