@@ -10,11 +10,9 @@ describe 'check_mk::host', type: :define do
     end
 
     it { is_expected.to contain_check_mk__host('host') }
-    it { is_expected.to contain_concat__fragment('check_mk-host').with({
-                                                                         target: 'target',
-                                                                         content: /^  'host',\n$/,
-                                                                         order: 11
-                                                                       })
+    it { is_expected.to contain_concat__fragment('check_mk-host').with(target: 'target',
+                                                                       content: /^  'host',\n$/,
+                                                                       order: 11)
     }
   end
   context 'with custom host_tags' do
@@ -26,11 +24,9 @@ describe 'check_mk::host', type: :define do
     end
 
     it { is_expected.to contain_check_mk__host('host') }
-    it { is_expected.to contain_concat__fragment('check_mk-host').with({
-                                                                         target: 'target',
-                                                                         content: /^  'host|tag1|tag2',\n$/,
-                                                                         order: 11
-                                                                       })
+    it { is_expected.to contain_concat__fragment('check_mk-host').with(target: 'target',
+                                                                       content: /^  'host|tag1|tag2',\n$/,
+                                                                       order: 11)
     }
   end
 end

@@ -10,12 +10,10 @@ describe 'check_mk::agent::install' do
       when 'Redhat'
         context 'with default parameters' do
           it { is_expected.to contain_class('check_mk::agent::install').with(
-            {
-              version: nil,
-              filestore: nil,
-              workspace: '/root/check_mk',
-              package: nil
-            }
+            version: nil,
+            filestore: nil,
+            workspace: '/root/check_mk',
+            package: nil
           )
           }
           it { is_expected.to contain_package('xinetd') }
@@ -59,18 +57,14 @@ describe 'check_mk::agent::install' do
             it { is_expected.to contain_package('xinetd') }
             it { is_expected.to contain_file('/workspace').with_ensure('directory') }
             it { is_expected.to contain_File('/workspace/check_mk-agent-1.2.3.noarch.rpm').with(
-              {
-                ensure: 'present',
-                source: '/filestore/check_mk-agent-1.2.3.noarch.rpm',
-                require: 'Package[xinetd]'
-              }
+              ensure: 'present',
+              source: '/filestore/check_mk-agent-1.2.3.noarch.rpm',
+              require: 'Package[xinetd]'
             ).that_comes_before('Package[check_mk-agent]')
             }
             it { is_expected.to contain_package('check_mk-agent').with(
-              {
-                provider: 'rpm',
-                source: '/workspace/check_mk-agent-1.2.3.noarch.rpm'
-              }
+              provider: 'rpm',
+              source: '/workspace/check_mk-agent-1.2.3.noarch.rpm'
             )
             }
           end
