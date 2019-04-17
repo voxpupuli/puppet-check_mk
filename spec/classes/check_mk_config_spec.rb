@@ -65,8 +65,8 @@ describe 'check_mk::config', type: :class do
   end
   context 'with host_groups' do
     host_groups = {
-      'group1' => {'host_tags' => []},
-      'group2' => {'host_tags' => []}
+      'group1' => { 'host_tags' => [] },
+      'group2' => { 'host_tags' => [] }
     }
     let :params do
       {

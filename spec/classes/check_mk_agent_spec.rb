@@ -31,8 +31,8 @@ describe 'check_mk::agent', type: :class do
         let :params do
           {
             mrpe_checks: {
-              'check1' => {'command' => 'command1'},
-              'check2' => {'command' => 'command2'}
+              'check1' => { 'command' => 'command1' },
+              'check2' => { 'command' => 'command2' }
             }
           }
         end

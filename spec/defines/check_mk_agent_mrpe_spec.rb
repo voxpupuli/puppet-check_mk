@@ -13,7 +13,7 @@ describe 'check_mk::agent::mrpe', type: :define do
 
     context 'with mandatory command' do
       let :params do
-        {command: 'command'}
+        { command: 'command' }
       end
 
       it { is_expected.to compile.and_raise_error(%r{Creating mrpe\.cfg is unsupported for operatingsystem}) }
@@ -28,7 +28,7 @@ describe 'check_mk::agent::mrpe', type: :define do
 
     context 'with mandatory command' do
       let :params do
-        {command: 'command'}
+        { command: 'command' }
       end
 
       it { is_expected.to contain_check_mk__agent__mrpe('checkname') }

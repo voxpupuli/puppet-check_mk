@@ -6,7 +6,7 @@ describe 'check_mk::host', type: :define do
 
   context 'with empty host_tags array' do
     let :params do
-      {target: 'target'}
+      { target: 'target' }
     end
 
     it { is_expected.to contain_check_mk__host('host') }
