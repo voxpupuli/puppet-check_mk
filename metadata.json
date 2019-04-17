@@ -1,17 +1,30 @@
 {
-  "name": "gnubilafrance-check_mk",
+  "name": "puppet-check_mk",
   "version": "0.7.2",
-  "author": "Baptiste Grenier <bgrenier@gnubila.fr>",
-  "license": "Apache-2.0",
+  "author": "Vox Pupuli",
   "summary": "Check_MK installation and configuration",
-
-  "source": "https://github.com/gnubila-france/puppet-check_mk",
-  "project_page": "https://github.com/gnubila-france/puppet-check_mk",
-  "issues_url": "https://github.com/gnubila-france/puppet-check_mk/issues",
-
-  "tags": [ "check_mk", "monitoring", "nagios" ],
-
+  "license": "Apache-2.0",
+  "source": "https://github.com/voxpupuli/puppet-check_mk",
+  "project_page": "https://github.com/voxpupuli/puppet-check_mk",
+  "issues_url": "https://github.com/voxpupuli/puppet-check_mk/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 1.0.0 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.25.0 < 6.0.0"
+    }
+  ],
   "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
@@ -27,18 +40,17 @@
         "6",
         "7"
       ]
-    },
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "6",
-        "7"
-      ]
     }
   ],
-
-  "dependencies": [
-    { "name": "puppetlabs/concat", "version_requirement": ">= 1.0.0 <5.0.0" },
-    { "name": "puppetlabs/stdlib", "version_requirement": ">= 2.3.0 <5.0.0" }
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 5.5.8 < 7.0.0"
+    }
+  ],
+  "tags": [
+    "check_mk",
+    "nagios",
+    "monitoring"
   ]
 }
