@@ -8,18 +8,18 @@ describe 'check_mk::agent::service', type: :class do
 
       it { is_expected.to contain_class('check_mk::agent::service') }
       it { is_expected.to contain_service('xinetd').with({
-        ensure: 'running',
-        enable: true
-      })
+                                                           ensure: 'running',
+                                                           enable: true
+                                                         })
       }
 
       if facts[:osfamily] == 'Debian' and facts[:operatingsystemmajrelease] == '7'
         it { is_expected.to contain_class('check_mk::agent::service') }
         it { is_expected.to contain_service('xinetd').with({
-          ensure: 'running',
-          enable: true,
-          hasstatus: false
-        })
+                                                             ensure: 'running',
+                                                             enable: true,
+                                                             hasstatus: false
+                                                           })
         }
       end
     end
