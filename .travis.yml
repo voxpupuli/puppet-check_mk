@@ -1,23 +1,87 @@
-sudo: false
-cache: bundler
+---
+dist: xenial
 language: ruby
-bundler_args: "--without development acceptance"
-script: bundle exec rake validate lint
+cache: bundler
+before_install:
+  - gem update --system
+  - gem update bundler
+  - bundle --version
+script:
+  - 'bundle exec rake $CHECK'
 matrix:
   fast_finish: true
   include:
-  - rvm: 2.2.5
-    env: PUPPET_GEM_VERSION="~> 5.0" STRICT_VARIABLES="yes" DEPLOY_TO_FORGE="yes"
-  - rvm: 2.2.5
-    env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
-  - rvm: 2.1.6
-    env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
+  - rvm: 2.4.4
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 5.0" CHECK=test
+  - rvm: 2.5.3
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 6.0" CHECK=test_with_coveralls
+  - rvm: 2.5.3
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 6.0" CHECK=rubocop
+  - rvm: 2.4.4
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 5.0" CHECK=build DEPLOY_TO_FORGE=yes
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_debug=true BEAKER_setfile=centos5-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_debug=true BEAKER_setfile=centos5-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_debug=true BEAKER_setfile=centos6-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_debug=true BEAKER_setfile=centos6-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_debug=true BEAKER_setfile=centos7-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_debug=true BEAKER_setfile=centos7-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_debug=true BEAKER_setfile=debian6-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_debug=true BEAKER_setfile=debian6-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_debug=true BEAKER_setfile=debian7-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+  - rvm: 2.5.3
+    bundler_args: --without development release
+    env: PUPPET_INSTALL_TYPE=agent BEAKER_IS_PE=no BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_debug=true BEAKER_setfile=debian7-64 BEAKER_HYPERVISOR=docker CHECK=beaker
+    services: docker
+branches:
+  only:
+  - master
+  - /^v\d/
+notifications:
+  email: false
+  irc:
+    on_success: always
+    on_failure: always
+    channels:
+      - "chat.freenode.org#voxpupuli-notifications"
 deploy:
   provider: puppetforge
-  user: gnubilafrance
+  user: puppet
   password:
-    secure: Jr2gk1aVstZ6RusmWChZFYfthV3wrl8FTPVuR09lrDVh3eyNJicOCS+FwCu2kXzFNFSzXGQpDWoLDNjqO7Tq/m75962wJkQdtDsivUnYKvmNWMvjI5cgDydqEcgDKxV3XtphMzpAILkr5IdfNGEV9AMXcsc/kp8UUInCaOgBDL0=
+    secure: "XKKYgqhSngqcb1BEYsK1kvr7yzgnxBX25N0mLKXGyfHOcngljnLlEqV91dXylcYg/SNfz6A7dESJ6D7fxTVmF6pgMAsWCVJGSue+HC2BkFijJIHdn8UwXaCtGJLtgwJww/eRgUK6d1I3UsnYKeNjGTdGmleztJqiAqCCBKLehq4XcO2ZwzJ3AdPWcd+xTtWDP+BXSju1KiQ9+0hPLOpvzRgTGPALXciUJ8uKM07dDhom/ewfdimniFtumajaADK+iRczwL5AVWumGPr8PBWNepL0gSBiAtmaQW//icdmKAqRNQrgyakXxn/P8vq5GUZTt5GQDeiRzHu1D7CR38rP+KimwGuXe4XVwF+ehAxCR+Mm3C2R0N5hk9Kmp8jypjV8/JvwbFallUqOZNXItAvuBrium5Kb2oBgq4s/Jgb+LeLLAqTBRjVDv6qMh/fbDAA8H0F3N1/LmeT45CIEvB7N2AalZ5yeYC75B6L/hqxuAaZgM73/gNqsyY+sh1oUAawctRLOAXReGqwM+9vF8g2ekd/jQrGVYydl3eEtjFA+AQwEMerYsN6Z5FvEI/VHf3DfE43HVm2uPhDXsqZQYswqPhYYfQkxNVLzpPMqX3goziIXQgxnjLU6qqyrJS/lXVyosoi3caqcmVusfO9mJoudbaQcadqYfXzujXIRO1oEKY4="
   on:
     tags: true
+    # all_branches is required to use tags
     all_branches: true
+    # Only publish the build marked with "DEPLOY_TO_FORGE"
     condition: "$DEPLOY_TO_FORGE = yes"
