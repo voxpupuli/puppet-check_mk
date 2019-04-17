@@ -76,5 +76,3 @@ describe 'check_mk::agent::config', type: :class do
     end
   end
 end
-
-
