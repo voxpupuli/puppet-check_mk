@@ -42,7 +42,7 @@ describe 'check_mk::agent::install' do
             end
 
             it 'fails' do
-              expect { catalogue }.to raise_error(Puppet::Error, /version must be specified/)
+              expect { catalogue }.to raise_error(Puppet::Error, %r{version must be specified})
             end
           end
           context 'with custom parameters' do

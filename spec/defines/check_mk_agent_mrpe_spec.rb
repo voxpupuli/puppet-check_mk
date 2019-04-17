@@ -35,7 +35,7 @@ describe 'check_mk::agent::mrpe', type: :define do
       it { is_expected.to contain_concat('/etc/check-mk-agent/mrpe.cfg').with_ensure('present') }
       it {
         is_expected.to contain_concat__fragment('checkname-mrpe-check').with(target: '/etc/check-mk-agent/mrpe.cfg',
-                                                                             content: /^checkname command\n$/)
+                                                                             content: %r{^checkname command\n$})
       }
     end
   end

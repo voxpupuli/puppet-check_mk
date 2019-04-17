@@ -12,10 +12,10 @@ describe 'check_mk::agent::config', type: :class do
       it { is_expected.to contain_class('check_mk::agent::config') }
       it {
         is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
-          with_content(/^\tport\s+ = 6556$/).
-          with_content(/^\tuser\s+ = root$/).
+          with_content(%r{^\tport\s+ = 6556$}).
+          with_content(%r{^\tuser\s+ = root$}).
           with_content(/^\tserver\s+ = \/usr\/bin\/check_mk_agent$/).
-          without_content(/only_from/).
+          without_content(%r{only_from}).
           with_notify('Class[Check_mk::Agent::Service]')
       }
       it { is_expected.to contain_file('/etc/xinetd.d/check_mk').with_ensure('absent') }
@@ -44,7 +44,7 @@ describe 'check_mk::agent::config', type: :class do
 
       it {
         is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
-          with_content(/^\tonly_from\s+= 127.0.0.1 1.2.3.4 5.6.7.8$/)
+          with_content(%r{^\tonly_from\s+= 127.0.0.1 1.2.3.4 5.6.7.8$})
       }
     end
     context 'with custom user' do
@@ -56,7 +56,7 @@ describe 'check_mk::agent::config', type: :class do
 
       it {
         is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
-          with_content(/^\tuser\s+ = custom$/)
+          with_content(%r{^\tuser\s+ = custom$})
       }
     end
   end
@@ -73,10 +73,10 @@ describe 'check_mk::agent::config', type: :class do
     context 'with defaults for all parameters' do
       it {
         is_expected.to contain_file('/etc/xinetd.d/check_mk').
-          with_content(/^\tport\s+ = 6556$/).
-          with_content(/^\tuser\s+ = root$/).
+          with_content(%r{^\tport\s+ = 6556$}).
+          with_content(%r{^\tuser\s+ = root$}).
           with_content(/^\tserver\s+ = \/usr\/bin\/check_mk_agent$/).
-          without_content(/only_from/).
+          without_content(%r{only_from}).
           with_notify('Class[Check_mk::Agent::Service]')
       }
       it { is_expected.not_to contain_file('/etc/xinetd.d/check_mk').with_ensure('absent') }

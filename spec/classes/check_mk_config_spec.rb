@@ -38,12 +38,12 @@ describe 'check_mk::config', type: :class do
     }
     it {
       is_expected.to contain_concat__fragment('all_hosts-header').with(target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-                                                                       content: /all_hosts = \[\n/,
+                                                                       content: %r{all_hosts = \[\n},
                                                                        order: 10)
     }
     it {
       is_expected.to contain_concat__fragment('all_hosts-footer').with(target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-                                                                       content: /\]\n/,
+                                                                       content: %r{\]\n},
                                                                        order: 19)
     }
     it {
@@ -91,12 +91,12 @@ describe 'check_mk::config', type: :class do
     it { is_expected.to contain_file('/omd/sites/TEST_SITE/etc/nagios/local/hostgroups').with_ensure_directory }
     it {
       is_expected.to contain_concat__fragment('host_groups-header').with(target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-                                                                         content: /host_groups = \[\n/,
+                                                                         content: %r{host_groups = \[\n},
                                                                          order: 20)
     }
     it {
       is_expected.to contain_concat__fragment('host_groups-footer').with(target: '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-                                                                         content: /\]\n/,
+                                                                         content: %r{\]\n},
                                                                          order: 29)
     }
     it {
