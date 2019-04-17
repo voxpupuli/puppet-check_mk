@@ -12,9 +12,9 @@ describe 'check_mk::hostgroup' do
         end
         hostgroups = {
           'TEST_HOSTGROUP' => {
-            'host_tags' => [
-              'tag1',
-              'tag2'
+            'host_tags' => %w[
+              tag1
+              tag2
             ],
             'description' => 'TEST_DESCRIPTION'
           }
@@ -51,9 +51,9 @@ EOS
         end
         hostgroups = {
           'TEST_HOUSTGROUP_WITH_UNDERSCORES' => {
-            'host_tags' => [
-              'tag1',
-              'tag2'
+            'host_tags' => %w[
+              tag1
+              tag2
             ]
           }
         }

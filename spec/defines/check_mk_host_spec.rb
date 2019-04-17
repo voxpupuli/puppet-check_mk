@@ -20,7 +20,7 @@ describe 'check_mk::host', type: :define do
     let :params do
       {
         target: 'target',
-        host_tags: ['tag1', 'tag2']
+        host_tags: %w[tag1 tag2]
       }
     end
 
