@@ -17,8 +17,7 @@ define check_mk::hostgroup (
     $description = regsubst($group, '_', ' ')
   }
   file { "${dir}/${group}.cfg":
-    ensure  => present,
+    ensure  => file,
     content => "define hostgroup {\n  hostgroup_name ${group}\n  alias ${description}\n}\n",
-    require => File[$dir],
   }
 }
