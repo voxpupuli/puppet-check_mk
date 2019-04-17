@@ -14,12 +14,12 @@ describe 'check_mk::install_tarball', type: :class do
     it { is_expected.to contain_class('check_mk::install_tarball') }
     it { is_expected.to contain_package('nagios').with_ensure('present').that_comes_before('Package[nagios-plugins-all]') }
     installed_packages = [
-        'xinetd',
-        'mod_python',
-        'make',
-        'gcc-c++',
-        'tar',
-        'gzip'
+      'xinetd',
+      'mod_python',
+      'make',
+      'gcc-c++',
+      'tar',
+      'gzip'
     ]
     installed_packages.each do |package|
       it { is_expected.to contain_package(package).with_ensure('present') }
@@ -90,12 +90,12 @@ describe 'check_mk::install_tarball', type: :class do
            cwd: '/workspace/check_mk-1.2.3',
            refreshonly: true,
            require: [
-               'Exec[change-setup-config-location]',
-               'Exec[remove-setup-header]',
-               'Exec[unpack-check_mk-tarball]',
-               'File[/workspace/check_mk_setup.conf]',
-               'File[/etc/nagios/check_mk]',
-               'Package[nagios]'
+             'Exec[change-setup-config-location]',
+             'Exec[remove-setup-header]',
+             'Exec[unpack-check_mk-tarball]',
+             'File[/workspace/check_mk_setup.conf]',
+             'File[/etc/nagios/check_mk]',
+             'Package[nagios]'
            ],
            notify: 'Class[Check_mk::Service]'
        })
