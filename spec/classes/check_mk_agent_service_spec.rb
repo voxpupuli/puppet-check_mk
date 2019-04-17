@@ -13,7 +13,6 @@ describe 'check_mk::agent::service', type: :class do
       }
 
       if facts[:osfamily] == 'Debian' && facts[:operatingsystemmajrelease] == '7'
-        it { is_expected.to contain_class('check_mk::agent::service') }
         it {
           is_expected.to contain_service('xinetd').with(ensure: 'running',
                                                         enable: true,
