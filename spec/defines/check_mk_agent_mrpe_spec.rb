@@ -28,9 +28,9 @@ describe 'check_mk::agent::mrpe', type: :define do
       let :params do
         {command: 'command'}
       end
-      it { should contain_check_mk__agent__mrpe('checkname') }
-      it { should contain_concat('/etc/check-mk-agent/mrpe.cfg').with_ensure('present') }
-      it { should contain_concat__fragment('checkname-mrpe-check').with({
+      it { is_expected.to contain_check_mk__agent__mrpe('checkname') }
+      it { is_expected.to contain_concat('/etc/check-mk-agent/mrpe.cfg').with_ensure('present') }
+      it { is_expected.to contain_concat__fragment('checkname-mrpe-check').with({
             target: '/etc/check-mk-agent/mrpe.cfg',
             content: /^checkname command\n$/,
         })

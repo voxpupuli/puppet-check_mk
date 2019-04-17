@@ -9,7 +9,7 @@ describe 'check_mk::agent::install' do
       case facts[:osfamily]
       when 'Redhat'
         context 'with default parameters' do
-          it { should contain_class('check_mk::agent::install').with(
+          it { is_expected.to contain_class('check_mk::agent::install').with(
             {
               version: nil,
               filestore: nil,
@@ -18,8 +18,8 @@ describe 'check_mk::agent::install' do
             }
           )
           }
-          it { should contain_package('xinetd') }
-          it { should contain_package('check_mk-agent').with_name('check-mk-agent') }
+          it { is_expected.to contain_package('xinetd') }
+          it { is_expected.to contain_package('check_mk-agent').with_name('check-mk-agent') }
         end
 
         context 'with custom package' do
@@ -28,9 +28,9 @@ describe 'check_mk::agent::install' do
               package: 'custom-package',
             }
           end
-          it { should contain_class('check_mk::agent::install') }
-          it { should contain_package('xinetd') }
-          it { should contain_package('check_mk-agent').with_name('custom-package') }
+          it { is_expected.to contain_class('check_mk::agent::install') }
+          it { is_expected.to contain_package('xinetd') }
+          it { is_expected.to contain_package('check_mk-agent').with_name('custom-package') }
         end
 
         context 'with filestore' do
@@ -52,10 +52,10 @@ describe 'check_mk::agent::install' do
                 workspace: '/workspace',
               }
             end
-            it { should contain_class('check_mk::agent::install') }
-            it { should contain_package('xinetd') }
-            it { should contain_file('/workspace').with_ensure('directory') }
-            it { should contain_File('/workspace/check_mk-agent-1.2.3.noarch.rpm').with(
+            it { is_expected.to contain_class('check_mk::agent::install') }
+            it { is_expected.to contain_package('xinetd') }
+            it { is_expected.to contain_file('/workspace').with_ensure('directory') }
+            it { is_expected.to contain_File('/workspace/check_mk-agent-1.2.3.noarch.rpm').with(
               {
                 ensure: 'present',
                 source: '/filestore/check_mk-agent-1.2.3.noarch.rpm',
@@ -63,7 +63,7 @@ describe 'check_mk::agent::install' do
               }
             ).that_comes_before('Package[check_mk-agent]')
             }
-            it { should contain_package('check_mk-agent').with(
+            it { is_expected.to contain_package('check_mk-agent').with(
               {
                 provider: 'rpm',
                 source: '/workspace/check_mk-agent-1.2.3.noarch.rpm',
@@ -74,9 +74,9 @@ describe 'check_mk::agent::install' do
         end
       when 'Debian'
         context 'with default parameters' do
-          it { should contain_class('check_mk::agent::install') }
-          it { should contain_package('xinetd') }
-          it { should contain_package('check_mk-agent').with_name('check-mk-agent') }
+          it { is_expected.to contain_class('check_mk::agent::install') }
+          it { is_expected.to contain_package('xinetd') }
+          it { is_expected.to contain_package('check_mk-agent').with_name('check-mk-agent') }
         end
 
         context 'with custom package' do
@@ -85,9 +85,9 @@ describe 'check_mk::agent::install' do
               package: 'custom-package',
             }
           end
-          it { should contain_class('check_mk::agent::install') }
-          it { should contain_package('xinetd') }
-          it { should contain_package('check_mk-agent').with_name('custom-package') }
+          it { is_expected.to contain_class('check_mk::agent::install') }
+          it { is_expected.to contain_package('xinetd') }
+          it { is_expected.to contain_package('check_mk-agent').with_name('custom-package') }
         end
       end
     end

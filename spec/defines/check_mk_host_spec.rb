@@ -7,8 +7,8 @@ describe 'check_mk::host', type: :define do
     let :params do
       {target: 'target'}
     end
-    it { should contain_check_mk__host('host') }
-    it { should contain_concat__fragment('check_mk-host').with({
+    it { is_expected.to contain_check_mk__host('host') }
+    it { is_expected.to contain_concat__fragment('check_mk-host').with({
           target: 'target',
           content: /^  'host',\n$/,
           order: 11,
@@ -22,8 +22,8 @@ describe 'check_mk::host', type: :define do
           host_tags: ['tag1', 'tag2'],
       }
     end
-    it { should contain_check_mk__host('host') }
-    it { should contain_concat__fragment('check_mk-host').with({
+    it { is_expected.to contain_check_mk__host('host') }
+    it { is_expected.to contain_concat__fragment('check_mk-host').with({
           target: 'target',
           content: /^  'host|tag1|tag2',\n$/,
           order: 11,

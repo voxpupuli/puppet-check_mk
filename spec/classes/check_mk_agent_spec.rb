@@ -9,10 +9,10 @@ describe 'check_mk::agent', type: :class do
       }
     end
     context 'with defaults for all parameters' do
-      it { should contain_class('check_mk::agent') }
-      it { should contain_class('check_mk::agent::install').that_comes_before('Class[check_mk::agent::config]') }
-      it { should contain_class('check_mk::agent::config') }
-      it { should contain_class('check_mk::agent::service') }
+      it { is_expected.to contain_class('check_mk::agent') }
+      it { is_expected.to contain_class('check_mk::agent::install').that_comes_before('Class[check_mk::agent::config]') }
+      it { is_expected.to contain_class('check_mk::agent::config') }
+      it { is_expected.to contain_class('check_mk::agent::service') }
     end
     context 'with mrpe_checks' do
       context 'not a hash' do
@@ -34,9 +34,9 @@ describe 'check_mk::agent', type: :class do
               }
           }
         end
-        it { should contain_class('check_mk::agent') }
-        it { should contain_check_mk__agent__mrpe('check1').with_command('command1') }
-        it { should contain_check_mk__agent__mrpe('check2').with_command('command2') }
+        it { is_expected.to contain_class('check_mk::agent') }
+        it { is_expected.to contain_check_mk__agent__mrpe('check1').with_command('command1') }
+        it { is_expected.to contain_check_mk__agent__mrpe('check2').with_command('command2') }
       end
     end
   end
