@@ -1,18 +1,25 @@
 require 'spec_helper'
-describe 'check_mk', :type => :class do
+describe 'check_mk' do
+  on_supported_os.each do |os, facts|
+    context "on #{os}" do
+      let(:facts) do
+        facts
+      end
 
-  context 'with defaults for all parameters' do
-    it { should contain_class('check_mk') }
-    it { should contain_class('check_mk::install').with({
+      context 'with defaults for all parameters' do
+        it { should contain_class('check_mk') }
+        it { should contain_class('check_mk::install').with({
           :filestore => nil,
           :package   => 'omd-0.56',
           :site      => 'monitoring',
           :workspace => '/root/check_mk',
-      }).that_comes_before('Class[check_mk::config]') }
-    it { should contain_class('check_mk::config').with({
+        }).that_comes_before('Class[check_mk::config]') }
+        it { should contain_class('check_mk::config').with({
           :host_groups => nil,
           :site        => 'monitoring',
-       }).that_comes_before('Class[check_mk::service]') }
-    it { should contain_class('check_mk::service') }
+        }).that_comes_before('Class[check_mk::service]') }
+        it { should contain_class('check_mk::service') }
+      end
+    end
   end
 end

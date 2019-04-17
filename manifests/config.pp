@@ -72,7 +72,7 @@ class check_mk::config (
       dir        => "${etc_dir}/nagios/local/hostgroups",
       hostgroups => $host_groups,
       target     => "${etc_dir}/check_mk/main.mk",
-      notify     => Exec['check_mk-refresh']
+      notify     => Exec['check_mk-refresh'],
     }
   }
   # local config is in /omd/sites/${site}/etc/check_mk/main.mk.local and is appended
