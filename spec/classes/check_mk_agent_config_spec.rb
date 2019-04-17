@@ -10,7 +10,8 @@ describe 'check_mk::agent::config', type: :class do
 
     context 'with defaults for all parameters' do
       it { is_expected.to contain_class('check_mk::agent::config') }
-      it { is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
+      it {
+        is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
           with_content(/^\tport\s+ = 6556$/).
           with_content(/^\tuser\s+ = root$/).
           with_content(/^\tserver\s+ = \/usr\/bin\/check_mk_agent$/).
@@ -26,7 +27,8 @@ describe 'check_mk::agent::config', type: :class do
         }
       end
 
-      it { is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
+      it {
+        is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
           with_content(/^\tserver\s+ = \/usr\/bin\/check_mk_caching_agent$/)
       }
     end
@@ -40,7 +42,8 @@ describe 'check_mk::agent::config', type: :class do
         }
       end
 
-      it { is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
+      it {
+        is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
           with_content(/^\tonly_from\s+= 127.0.0.1 1.2.3.4 5.6.7.8$/)
       }
     end
@@ -51,7 +54,8 @@ describe 'check_mk::agent::config', type: :class do
         }
       end
 
-      it { is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
+      it {
+        is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
           with_content(/^\tuser\s+ = custom$/)
       }
     end
@@ -67,7 +71,8 @@ describe 'check_mk::agent::config', type: :class do
     end
 
     context 'with defaults for all parameters' do
-      it { is_expected.to contain_file('/etc/xinetd.d/check_mk').
+      it {
+        is_expected.to contain_file('/etc/xinetd.d/check_mk').
           with_content(/^\tport\s+ = 6556$/).
           with_content(/^\tuser\s+ = root$/).
           with_content(/^\tserver\s+ = \/usr\/bin\/check_mk_agent$/).

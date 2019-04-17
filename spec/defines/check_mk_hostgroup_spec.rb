@@ -28,9 +28,10 @@ describe 'check_mk::hostgroup' do
         end
 
         it { is_expected.to contain_check_mk__hostgroup('TEST_HOSTGROUP') }
-        it { is_expected.to contain_concat__fragment('check_mk-hostgroup-TEST_HOSTGROUP').with(target: 'target',
-                                                                                               content: /^  \( 'TEST_HOSTGROUP', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
-                                                                                               order: 21)
+        it {
+          is_expected.to contain_concat__fragment('check_mk-hostgroup-TEST_HOSTGROUP').with(target: 'target',
+                                                                                            content: /^  \( 'TEST_HOSTGROUP', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
+                                                                                            order: 21)
         }
         expected_file_content = <<EOS
 define hostgroup {
@@ -38,8 +39,9 @@ define hostgroup {
   alias TEST_DESCRIPTION
 }
 EOS
-        it { is_expected.to contain_file('/dir/TEST_HOSTGROUP.cfg').with(ensure: 'file',
-                                                                         content: expected_file_content)
+        it {
+          is_expected.to contain_file('/dir/TEST_HOSTGROUP.cfg').with(ensure: 'file',
+                                                                      content: expected_file_content)
         }
       end
 
@@ -64,9 +66,10 @@ EOS
         end
 
         it { is_expected.to contain_check_mk__hostgroup('TEST_HOUSTGROUP_WITH_UNDERSCORES') }
-        it { is_expected.to contain_concat__fragment('check_mk-hostgroup-TEST_HOUSTGROUP_WITH_UNDERSCORES').with(target: '/target',
-                                                                                                                 content: /^  \( 'TEST_HOUSTGROUP_WITH_UNDERSCORES', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
-                                                                                                                 order: 21)
+        it {
+          is_expected.to contain_concat__fragment('check_mk-hostgroup-TEST_HOUSTGROUP_WITH_UNDERSCORES').with(target: '/target',
+                                                                                                              content: /^  \( 'TEST_HOUSTGROUP_WITH_UNDERSCORES', \[ 'tag1', 'tag2' \], ALL_HOSTS \),\n$/,
+                                                                                                              order: 21)
         }
         expected_file_content = <<EOS
 define hostgroup {
@@ -74,8 +77,9 @@ define hostgroup {
   alias TEST HOUSTGROUP_WITH_UNDERSCORES
 }
 EOS
-        it { is_expected.to contain_file('/dir/TEST_HOUSTGROUP_WITH_UNDERSCORES.cfg').with(ensure: 'file',
-                                                                                           content: expected_file_content)
+        it {
+          is_expected.to contain_file('/dir/TEST_HOUSTGROUP_WITH_UNDERSCORES.cfg').with(ensure: 'file',
+                                                                                        content: expected_file_content)
         }
       end
     end

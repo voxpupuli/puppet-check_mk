@@ -16,11 +16,13 @@ describe 'check_mk::service' do
 
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('check_mk::service') }
-        it { is_expected.to contain_service(service_name).with(ensure: 'running',
-                                                               enable: 'true')
+        it {
+          is_expected.to contain_service(service_name).with(ensure: 'running',
+                                                            enable: 'true')
         }
-        it { is_expected.to contain_service('omd').with(ensure: 'running',
-                                                        enable: 'true')
+        it {
+          is_expected.to contain_service('omd').with(ensure: 'running',
+                                                     enable: 'true')
         }
       end
     end
