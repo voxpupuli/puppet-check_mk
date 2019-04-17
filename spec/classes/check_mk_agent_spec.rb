@@ -23,7 +23,7 @@ describe 'check_mk::agent', type: :class do
           }
         end
 
-        it 'should fail' do
+        it 'fails' do
           expect { catalogue }.to raise_error(Puppet::Error, /\"not_a_hash\" is not a Hash./)
         end
       end

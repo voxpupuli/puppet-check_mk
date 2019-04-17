@@ -41,7 +41,7 @@ describe 'check_mk::agent::install' do
               }
             end
 
-            it 'should fail' do
+            it 'fails' do
               expect { catalogue }.to raise_error(Puppet::Error, /version must be specified/)
             end
           end
