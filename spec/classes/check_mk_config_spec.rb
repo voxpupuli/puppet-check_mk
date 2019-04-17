@@ -9,6 +9,7 @@ describe 'check_mk::config', type: :class do
         site: 'TEST_SITE'
       }
     end
+
     it { is_expected.to contain_class('check_mk::config') }
     it { is_expected.to contain_file('/omd/sites/TEST_SITE/etc/nagios/local').with_ensure_directory.
                     that_comes_before('File_line[nagios-add-check_mk-cfg_dir]')
@@ -95,6 +96,7 @@ describe 'check_mk::config', type: :class do
         host_groups: host_groups
       }
     end
+
     it { is_expected.to contain_class('check_mk::config') }
     it { is_expected.to contain_file('/omd/sites/TEST_SITE/etc/nagios/local/hostgroups').with_ensure_directory }
     it { is_expected.to contain_concat__fragment('host_groups-header').with({

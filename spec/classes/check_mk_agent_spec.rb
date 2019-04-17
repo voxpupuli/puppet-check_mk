@@ -8,6 +8,7 @@ describe 'check_mk::agent', type: :class do
         osfamily: 'Redhat'
       }
     end
+
     context 'with defaults for all parameters' do
       it { is_expected.to contain_class('check_mk::agent') }
       it { is_expected.to contain_class('check_mk::agent::install').that_comes_before('Class[check_mk::agent::config]') }
@@ -21,6 +22,7 @@ describe 'check_mk::agent', type: :class do
             mrpe_checks: 'not_a_hash'
           }
         end
+
         it 'should fail' do
           expect { catalogue }.to raise_error(Puppet::Error, /\"not_a_hash\" is not a Hash./)
         end
@@ -34,6 +36,7 @@ describe 'check_mk::agent', type: :class do
             }
           }
         end
+
         it { is_expected.to contain_class('check_mk::agent') }
         it { is_expected.to contain_check_mk__agent__mrpe('check1').with_command('command1') }
         it { is_expected.to contain_check_mk__agent__mrpe('check2').with_command('command2') }

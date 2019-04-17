@@ -9,6 +9,7 @@ describe 'check_mk::install', type: :class do
         workspace: 'workspace'
       }
     end
+
     it { is_expected.to contain_class('check_mk::install') }
     it { is_expected.to contain_package('package').with_ensure('installed').that_comes_before('Exec[omd-create-site]') }
     it { is_expected.to contain_exec('omd-create-site').with({

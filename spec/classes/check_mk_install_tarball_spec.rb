@@ -11,6 +11,7 @@ describe 'check_mk::install_tarball', type: :class do
         workspace: '/workspace'
       }
     end
+
     it { is_expected.to contain_class('check_mk::install_tarball') }
     it { is_expected.to contain_package('nagios').with_ensure('present').that_comes_before('Package[nagios-plugins-all]') }
     installed_packages = [

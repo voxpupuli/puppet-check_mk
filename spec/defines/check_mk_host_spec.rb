@@ -3,10 +3,12 @@ describe 'check_mk::host', type: :define do
   let :title do
     'host'
   end
+
   context 'with empty host_tags array' do
     let :params do
       {target: 'target'}
     end
+
     it { is_expected.to contain_check_mk__host('host') }
     it { is_expected.to contain_concat__fragment('check_mk-host').with({
                                                                          target: 'target',
@@ -22,6 +24,7 @@ describe 'check_mk::host', type: :define do
         host_tags: ['tag1', 'tag2']
       }
     end
+
     it { is_expected.to contain_check_mk__host('host') }
     it { is_expected.to contain_concat__fragment('check_mk-host').with({
                                                                          target: 'target',

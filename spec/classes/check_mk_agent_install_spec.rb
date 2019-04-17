@@ -28,6 +28,7 @@ describe 'check_mk::agent::install' do
               package: 'custom-package'
             }
           end
+
           it { is_expected.to contain_class('check_mk::agent::install') }
           it { is_expected.to contain_package('xinetd') }
           it { is_expected.to contain_package('check_mk-agent').with_name('custom-package') }
@@ -40,6 +41,7 @@ describe 'check_mk::agent::install' do
                 filestore: '/filestore'
               }
             end
+
             it 'should fail' do
               expect { catalogue }.to raise_error(Puppet::Error, /version must be specified/)
             end
@@ -52,6 +54,7 @@ describe 'check_mk::agent::install' do
                 workspace: '/workspace'
               }
             end
+
             it { is_expected.to contain_class('check_mk::agent::install') }
             it { is_expected.to contain_package('xinetd') }
             it { is_expected.to contain_file('/workspace').with_ensure('directory') }
@@ -85,6 +88,7 @@ describe 'check_mk::agent::install' do
               package: 'custom-package'
             }
           end
+
           it { is_expected.to contain_class('check_mk::agent::install') }
           it { is_expected.to contain_package('xinetd') }
           it { is_expected.to contain_package('check_mk-agent').with_name('custom-package') }

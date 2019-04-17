@@ -26,6 +26,7 @@ describe 'check_mk::agent::config', type: :class do
           use_cache: true
         }
       end
+
       it { is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
           with_content(/^\tserver\s+ = \/usr\/bin\/check_mk_caching_agent$/)
       }
@@ -39,6 +40,7 @@ describe 'check_mk::agent::config', type: :class do
           ]
         }
       end
+
       it { is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
           with_content(/^\tonly_from\s+= 127.0.0.1 1.2.3.4 5.6.7.8$/)
       }
@@ -49,6 +51,7 @@ describe 'check_mk::agent::config', type: :class do
           user: 'custom'
         }
       end
+
       it { is_expected.to contain_file('/etc/xinetd.d/check-mk-agent').
           with_content(/^\tuser\s+ = custom$/)
       }

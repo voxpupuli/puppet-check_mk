@@ -26,6 +26,7 @@ describe 'check_mk::hostgroup' do
             target: 'target'
           }
         end
+
         it { is_expected.to contain_check_mk__hostgroup('TEST_HOSTGROUP') }
         it { is_expected.to contain_concat__fragment('check_mk-hostgroup-TEST_HOSTGROUP').with({
                                                                                                  target: 'target',
@@ -65,6 +66,7 @@ EOS
             target: '/target'
           }
         end
+
         it { is_expected.to contain_check_mk__hostgroup('TEST_HOUSTGROUP_WITH_UNDERSCORES') }
         it { is_expected.to contain_concat__fragment('check_mk-hostgroup-TEST_HOUSTGROUP_WITH_UNDERSCORES').with({
                                                                                                                    target: '/target',

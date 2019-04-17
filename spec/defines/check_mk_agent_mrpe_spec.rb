@@ -3,6 +3,7 @@ describe 'check_mk::agent::mrpe', type: :define do
   let :title do
     'checkname'
   end
+
   context 'Unsupported OS' do
     let :facts do
       {
@@ -24,10 +25,12 @@ describe 'check_mk::agent::mrpe', type: :define do
         operatingsystem: 'redhat'
       }
     end
+
     context 'with mandatory command' do
       let :params do
         {command: 'command'}
       end
+
       it { is_expected.to contain_check_mk__agent__mrpe('checkname') }
       it { is_expected.to contain_concat('/etc/check-mk-agent/mrpe.cfg').with_ensure('present') }
       it { is_expected.to contain_concat__fragment('checkname-mrpe-check').with({
