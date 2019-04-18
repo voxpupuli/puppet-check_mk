@@ -1,58 +1,67 @@
+# Class: check_mk::config
+#
+# @summary Configures check_mk.
+# @api private
+#
 
 class check_mk::config (
-  $site,
-  $host_groups = undef,
+  String $site,
+  Optional[Hash] $host_groups = undef,
+  Optional[Array] $all_hosts_static = undef,
 ) {
   $etc_dir = "/omd/sites/${site}/etc"
   $bin_dir = "/omd/sites/${site}/bin"
   file { "${etc_dir}/nagios/local":
     ensure => directory,
+    owner  => $site,
+    group  => $site,
   }
+
   file_line { 'nagios-add-check_mk-cfg_dir':
     ensure  => present,
     line    => "cfg_dir=${etc_dir}/nagios/local",
     path    => "${etc_dir}/nagios/nagios.cfg",
     require => File["${etc_dir}/nagios/local"],
-    notify  => Class['check_mk::service'],
   }
-  file_line { 'add-guest-users':
-    ensure => present,
-    line   => 'guest_users = [ "guest" ]',
-    path   => "${etc_dir}/check_mk/multisite.mk",
-    notify => Class['check_mk::service'],
-  }
-  file { "${etc_dir}/check_mk/all_hosts_static":
-      ensure  => file,
-      content => template('check_mk/all_hosts_static.erb'),
-  }
+
   concat { "${etc_dir}/check_mk/main.mk":
-    owner  => 'root',
-    group  => 'root',
-    mode   => 'u=rw,go=r',
-    notify => Exec['check_mk-refresh'],
+    owner  => $site,
+    group  => $site,
+    mode   => '0644',
+    notify => Exec['check_mk-reload'],
   }
-  # all_hosts
+
+  # # all_hosts
   concat::fragment { 'all_hosts-header':
     target  => "${etc_dir}/check_mk/main.mk",
     content => "all_hosts = [\n",
     order   => 10,
   }
-  concat::fragment { 'all_hosts-footer':
-    target  => "${etc_dir}/check_mk/main.mk",
-    content => "]\n",
-    order   => 19,
+
+  file { "${etc_dir}/check_mk/all_hosts_static":
+    ensure  => file,
+    content => template('check_mk/all_hosts_static.erb'),
   }
-  Check_mk::Host <<| |>> {
-    target => "${etc_dir}/check_mk/main.mk",
-    notify => Exec['check_mk-refresh']
-  }
-  # local list of hosts is in /omd/sites/${site}/etc/check_mk/all_hosts_static and is appended
+
+  # # local list of hosts is in /omd/sites/${site}/etc/check_mk/all_hosts_static and is appended
   concat::fragment { 'all-hosts-static':
     source => "${etc_dir}/check_mk/all_hosts_static",
     target => "${etc_dir}/check_mk/main.mk",
     order  => 18,
   }
-  # host_groups
+
+  concat::fragment { 'all_hosts-footer':
+    target  => "${etc_dir}/check_mk/main.mk",
+    content => "]\n",
+    order   => 19,
+  }
+
+  #TODO: Check if nodes are added automatically because we removed the exec
+  Check_mk::Host <<| |>> {
+    target => "${etc_dir}/check_mk/main.mk",
+  }
+
+  # # host_groups
   if $host_groups {
     file { "${etc_dir}/nagios/local/hostgroups":
       ensure => directory,
@@ -72,36 +81,30 @@ class check_mk::config (
       dir        => "${etc_dir}/nagios/local/hostgroups",
       hostgroups => $host_groups,
       target     => "${etc_dir}/check_mk/main.mk",
-      notify     => Exec['check_mk-refresh'],
     }
   }
-  # local config is in /omd/sites/${site}/etc/check_mk/main.mk.local and is appended
+
+  # # local config is in /omd/sites/${site}/etc/check_mk/main.mk.local and is appended
   file { "${etc_dir}/check_mk/main.mk.local":
     ensure => file,
     owner  => 'root',
     group  => 'root',
     mode   => 'u=rw,go=r',
   }
+
   concat::fragment { 'check_mk-local-config':
     source => "${etc_dir}/check_mk/main.mk.local",
     target => "${etc_dir}/check_mk/main.mk",
     order  => 99,
   }
-  # re-read config if it changes
-  exec { 'check_mk-refresh':
-    command     => "/bin/su -l -c '${bin_dir}/check_mk -I' ${site}",
-    refreshonly => true,
-    notify      => Exec['check_mk-reload'],
-  }
+
   exec { 'check_mk-reload':
-    command     => "/bin/su -l -c '${bin_dir}/check_mk -O' ${site}",
+    command     => "/bin/su -l -c '${bin_dir}/check_mk --reload' ${site}",
     refreshonly => true,
   }
-  # re-read inventory daily
-  cron { 'check_mk-refresh-inventory-daily':
-    user    => 'root',
-    command => "su -l -c '${bin_dir}/check_mk -O' ${site}",
-    minute  => 0,
-    hour    => 0,
-  }
+
+  # In the original code 2 execs would be here, but is is not recommended
+  # to do a reindex, see https://mathias-kettner.de/checkmk_inventory.html
+  # This breaks large installs. The services class is subscribed to the
+  # config class so new changes should be noticed automatically.
 }
