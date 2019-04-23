@@ -23,8 +23,8 @@ class check_mk::install (
     }
 
     # check-mk-raw-1.5.0p7_0.stretch_amd64.deb
-    if $package =~ /^(check-mk-(\w*))(-|_)(\d*\.\d*\.\d*p\d*).+\.(\w+)$/ {
-      $type = $5
+    if $package =~ /^(check-mk-\w*(-|_)\d*\.\d*\.\d*p\d*).+\.(\w+)$/ {
+      $type = $3
       $package_name = $1
 
       if $type == 'deb' {
@@ -38,14 +38,16 @@ class check_mk::install (
           require => Package['gdebi'],
           before  => Exec['omd-create-site'],
         }
-      } else {
+      } elsif $type == 'rpm' {
         package { $package_name:
           ensure   => installed,
-          provider => $type,
+          provider => 'yum',
           source   => "${workspace}/${package}",
           require  => File["${workspace}/${package}"],
           before   => Exec['omd-create-site'],
         }
+      } else {
+        fail('Only support RPM or DEB files.')
       }
     } else {
       fail('Package does not match format like check-mk-raw-1.5.0p7_0.stretch_amd64.deb')

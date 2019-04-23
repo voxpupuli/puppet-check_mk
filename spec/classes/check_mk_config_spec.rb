@@ -32,7 +32,7 @@ describe 'check_mk::config' do
           'owner'  => 'TEST_SITE',
           'group'  => 'TEST_SITE',
           'mode'   => '0644'
-        ).that_notifies('Exec[check_mk-reload]')
+        )
 
         is_expected.to contain_concat__fragment('all_hosts-header').with(
           'target'  => '/omd/sites/TEST_SITE/etc/check_mk/main.mk',

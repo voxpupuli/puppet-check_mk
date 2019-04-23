@@ -25,10 +25,9 @@ class check_mk::config (
   }
 
   concat { "${etc_dir}/check_mk/main.mk":
-    owner  => $site,
-    group  => $site,
-    mode   => '0644',
-    notify => Exec['check_mk-reload'],
+    owner => $site,
+    group => $site,
+    mode  => '0644',
   }
 
   # # all_hosts
@@ -59,6 +58,7 @@ class check_mk::config (
   #TODO: Check if nodes are added automatically because we removed the exec
   Check_mk::Host <<| |>> {
     target => "${etc_dir}/check_mk/main.mk",
+    notify => Exec['check_mk-reload'],
   }
 
   # # host_groups
