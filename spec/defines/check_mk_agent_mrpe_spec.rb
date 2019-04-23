@@ -1,41 +1,42 @@
 require 'spec_helper'
-describe 'check_mk::agent::mrpe', type: :define do
-  let :title do
-    'checkname'
+
+describe 'check_mk::agent::mrpe' do
+  let(:pre_condition) do
+    "class { 'check_mk::agent': }"
+  end
+  let(:title) { 'check1' }
+  let(:params) do
+    {
+      command: 'command1'
+    }
   end
 
-  context 'Unsupported OS' do
-    let :facts do
-      {
-        operatingsystem: 'Solaris'
-      }
-    end
+  on_supported_os.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
 
-    context 'with mandatory command' do
-      let :params do
-        { command: 'command' }
-      end
-
-      it { is_expected.to compile.and_raise_error(%r{Creating mrpe\.cfg is unsupported for operatingsystem}) }
-    end
-  end
-  context 'RedHat Linux' do
-    let :facts do
-      {
-        operatingsystem: 'redhat'
-      }
-    end
-
-    context 'with mandatory command' do
-      let :params do
-        { command: 'command' }
-      end
-
-      it { is_expected.to contain_check_mk__agent__mrpe('checkname') }
-      it { is_expected.to contain_concat('/etc/check-mk-agent/mrpe.cfg').with_ensure('present') }
       it {
-        is_expected.to contain_concat__fragment('checkname-mrpe-check').with(target: '/etc/check-mk-agent/mrpe.cfg',
-                                                                             content: %r{^checkname command\n$})
+        is_expected.to compile
+        case facts[:osfamily]
+        when 'RedHat'
+          is_expected.to contain_concat('/etc/check-mk-agent/mrpe.cfg').with(
+            'ensure' => 'present'
+          )
+
+          is_expected.to contain_concat__fragment('check1-mrpe-check').with(
+            'target'  => '/etc/check-mk-agent/mrpe.cfg',
+            'content' => %r{check1 command1\n}
+          )
+        when 'Debian'
+          is_expected.to contain_concat('/etc/check_mk/mrpe.cfg').with(
+            'ensure' => 'present'
+          )
+
+          is_expected.to contain_concat__fragment('check1-mrpe-check').with(
+            'target'  => '/etc/check_mk/mrpe.cfg',
+            'content' => %r{check1 command1\n}
+          )
+        end
       }
     end
   end

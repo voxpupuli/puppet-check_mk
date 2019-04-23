@@ -1,49 +1,51 @@
+# Class: check_mk::agent::install
+#
+# @summary Installs the check_mk client.
+# @api private
+#
 class check_mk::agent::install (
-  $version   = $check_mk::agent::version,
-  $filestore = undef,
+  $filestore = $check_mk::agent::filestore,
   $workspace = $check_mk::agent::workspace,
-  $package   = undef,
+  $package   = $check_mk::agent::package,
 ) inherits check_mk::agent {
-  if ! defined(Package['xinetd']) {
-    package { 'xinetd':
-      ensure => present,
-    }
-  }
   if $filestore {
-    if ! $version {
-      fail('version must be specified.')
-    }
-
     if ! defined(File[$workspace]) {
       file { $workspace:
         ensure => directory,
       }
     }
-    file { "${workspace}/check_mk-agent-${version}.noarch.rpm":
-      ensure  => present,
-      source  => "${filestore}/check_mk-agent-${version}.noarch.rpm",
-      require => Package['xinetd'],
+
+    # check-mk-agent_1.5.0p7-1_all.deb
+    if $package =~ /^(check-mk-(\w*))(-|_)(\d*\.\d*\.\d*p\d*).+\.(\w+)$/ {
+      case $5 {
+        'deb':     {
+          $type = 'dpkg'
+        }
+        default: {
+          $type = $5
+        }
+      }
+      $package_name = $1
+
+      file { "${workspace}/${package}":
+        ensure => present,
+        source => "${filestore}/${package}",
+      }
+
+      package { 'check_mk-agent':
+        ensure   => present,
+        name     => $package_name,
+        provider => $type,
+        source   => "${workspace}/${package}",
+        require  => File["${workspace}/${package}"],
+      }
+    } else {
+      fail('Package does not match format like check-mk-agent_1.5.0p7-1_all.deb')
     }
+  } else {
     package { 'check_mk-agent':
-      ensure   => present,
-      provider => 'rpm',
-      source   => "${workspace}/check_mk-agent-${version}.noarch.rpm",
-      require  => File["${workspace}/check_mk-agent-${version}.noarch.rpm"],
-    }
-  }
-  else {
-    $check_mk_agent = $package ? {
-      undef => $::osfamily ? {
-        'Debian' => 'check-mk-agent',
-        'RedHat' => 'check-mk-agent',
-        default  => 'check_mk-agent',
-      },
-      default  => $package,
-    }
-    package { 'check_mk-agent':
-      ensure  => present,
-      name    => $check_mk_agent,
-      require => Package['xinetd'],
+      ensure => present,
+      name   => $package,
     }
   }
 }
