@@ -80,14 +80,14 @@ created making the URL http://hostname/acme/check_mk/ running as the 'acme' user
 
 * Installs the check_mk-agent package.
 
-* Configures the /etc/xinetd.d/check_mk configuration file
+* Configures the /etc/xinetd.d/check_mk configuration file or systemd drop-in files when using systemd.
 
 ### Example 1
 
     include check_mk::agent
 
 Installs the check_mk package from the system repository
-and configures /etc/xinetd.d/check_mk with no IP whitelist restrictions.
+and configures check\_mk with no IP whitelist restrictions.
 
 ### Example 2
 
@@ -97,9 +97,12 @@ and configures /etc/xinetd.d/check_mk with no IP whitelist restrictions.
     }
 
 Installs the specified versions of the check_mk package
-after retrieving them from the Puppet file store.  Configures
-/etc/xinetd.d/check_mk so that only the specified IPs (and localhost/127.0.0.1)
-are allowed to connect.
+after retrieving them from the Puppet file store.  On non systemd systems, configures
+/etc/xinetd.d/check\_mk so that only the specified IPs (and localhost/127.0.0.1)
+are allowed to connect. On systemd systems that support the `IPAddressAllow` option,
+that is used instead.  On older systemd versions (notably EL7 variants), an error is raised.
+Instead of using this parameter, configure iptables/firewalld or set `use_xinetd => true` to
+force the use of xinetd.
 
 ### check_mk::agent parameters
 
