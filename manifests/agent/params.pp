@@ -4,7 +4,7 @@
 # @api private
 #
 class check_mk::agent::params {
-    case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $config_dir = '/etc/check-mk-agent'
     }
@@ -12,7 +12,7 @@ class check_mk::agent::params {
       $config_dir = '/etc/check_mk'
     }
     default: {
-      fail("OS familly ${::osfamily} is not managed!")
+      fail("OS family ${facts['os']['family']} is not supported!")
     }
   }
 }
