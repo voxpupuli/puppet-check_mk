@@ -45,5 +45,9 @@ class check_mk::agent (
     host_tags => $host_tags,
   }
 
-  create_resources('check_mk::agent::mrpe', $mrpe_checks)
+  $mrpe_checks.each | String $key, Hash $attrs| {
+    check_mk::agent::mrpe { $key:
+      * => $attrs,
+    }
+  }
 }

@@ -44,6 +44,7 @@ describe 'check_mk::agent' do
         is_expected.to contain_class('check_mk::agent::install')
         is_expected.to contain_class('check_mk::agent::config').that_requires('Class[check_mk::agent::install]')
       }
+      it { is_expected.to have_check_mk__agent__mrpe_resource_count(2) }
     end
   end
 end
