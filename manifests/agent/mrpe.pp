@@ -1,44 +1,23 @@
+# Type: check_mk::agent::mrpe
 #
-# Add entry to the mrpe.cfg file
-#
-### Parameters
-#
-### command
-#
-# The command to run
-#
-### Example
-#
-# ```
-# check_mk::agent::mrpe { 'Test':
-#   command => '/bin/true'
-# }
-# ```
-#
-## Authors
-#
-# * Bas Grolleman <bgrolleman@emendo-it.nl>
+# @summary Adds a command to the MRPE config.
+# @param command The command to be added to the MRPE config.
+# @param config_dir The path to the directory where the mrpe.cfg is.
 #
 define check_mk::agent::mrpe (
-  $command,
+  String $command,
+  Stdlib::Absolutepath $config_dir = $check_mk::agent::config_dir,
 ) {
-  $mrpe_config_file = $::operatingsystem ? {
-    'centos' => '/etc/check-mk-agent/mrpe.cfg',
-    'redhat' => '/etc/check-mk-agent/mrpe.cfg',
-    default  => undef,
+  $mrpe_config_file = "${config_dir}/mrpe.cfg"
+
+  if ! defined(Concat[$mrpe_config_file]) {
+    concat { $mrpe_config_file:
+      ensure => 'present',
+    }
   }
 
-  if ( $mrpe_config_file ) {
-    if ! defined(Concat[$mrpe_config_file]) {
-      concat { $mrpe_config_file:
-        ensure => 'present',
-      }
-    }
-    concat::fragment { "${name}-mrpe-check":
-      target  => $mrpe_config_file,
-      content => "${name} ${command}\n",
-    }
-  } else {
-    fail("Creating mrpe.cfg is unsupported for operatingsystem ${::operatingsystem}")
+  concat::fragment { "${name}-mrpe-check":
+    target  => $mrpe_config_file,
+    content => "${name} ${command}\n",
   }
 }

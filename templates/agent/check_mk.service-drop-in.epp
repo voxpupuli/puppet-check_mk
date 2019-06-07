@@ -1,0 +1,11 @@
+<%- |
+  Stdlib::Absolutepath $server,
+  String $user,
+  String $group,
+| -%>
+# THIS FILE IS MANAGED BY PUPPET
+[Service]
+ExecStart=
+ExecStart=<%= $server %>
+User=<%= $user %>
+Group=<%= $group %>

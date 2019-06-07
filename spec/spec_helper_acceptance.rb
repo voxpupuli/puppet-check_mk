@@ -20,6 +20,8 @@ RSpec.configure do |c|
     when 'RedHat'
       # Enable epel
       install_package(host, 'epel-release')
+      install_package(host, 'nc')
     end
+    install_package(host, 'nmap')
   end
 end

@@ -14,7 +14,7 @@ class check_mk::params {
   $workspace = '/root/check_mk'
 
   # OS specific variables
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $httpd_service = 'httpd'
     }
@@ -22,7 +22,7 @@ class check_mk::params {
       $httpd_service = 'apache2'
     }
     default: {
-      fail("OS familly ${::osfamily} is not managed!")
+      fail("OS family ${facts['os']['family']} is not supported!")
     }
   }
 }

@@ -1,0 +1,12 @@
+<%- |
+  Stdlib::Port $port,
+  Array[Stdlib::IP::Address] $ip_address_allow = [],
+| -%>
+# THIS FILE IS MANAGED BY PUPPET
+[Socket]
+ListenStream=
+ListenStream=<%= $port %>
+<% unless $ip_address_allow.empty() { -%>
+IPAddressDeny=any
+IPAddressAllow=<%= $ip_address_allow.join(' ') %>
+<% } -%>
