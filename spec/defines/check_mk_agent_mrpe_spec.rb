@@ -15,28 +15,13 @@ describe 'check_mk::agent::mrpe' do
     context "on #{os}" do
       let(:facts) { os_facts }
 
+      it { is_expected.to compile }
+      it { is_expected.to contain_concat('/etc/check_mk/mrpe.cfg').with_ensure('present') }
       it {
-        is_expected.to compile
-        case facts[:osfamily]
-        when 'RedHat'
-          is_expected.to contain_concat('/etc/check-mk-agent/mrpe.cfg').with(
-            'ensure' => 'present'
-          )
-
-          is_expected.to contain_concat__fragment('check1-mrpe-check').with(
-            'target'  => '/etc/check-mk-agent/mrpe.cfg',
-            'content' => %r{check1 command1\n}
-          )
-        when 'Debian'
-          is_expected.to contain_concat('/etc/check_mk/mrpe.cfg').with(
-            'ensure' => 'present'
-          )
-
-          is_expected.to contain_concat__fragment('check1-mrpe-check').with(
-            'target'  => '/etc/check_mk/mrpe.cfg',
-            'content' => %r{check1 command1\n}
-          )
-        end
+        is_expected.to contain_concat__fragment('check1-mrpe-check').with(
+          'target'  => '/etc/check_mk/mrpe.cfg',
+          'content' => %r{check1 command1\n}
+        )
       }
     end
   end

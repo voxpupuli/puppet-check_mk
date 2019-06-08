@@ -31,8 +31,8 @@ class check_mk::agent (
   Stdlib::Port $port = 6556,
   String[1] $user = 'root',
   String[1] $group = $user,
-  Stdlib::Absolutepath $config_dir = $check_mk::agent::params::config_dir,
-) inherits check_mk::agent::params {
+  Stdlib::Absolutepath $config_dir = '/etc/check_mk',
+) {
 
   include check_mk::agent::install
   include check_mk::agent::config

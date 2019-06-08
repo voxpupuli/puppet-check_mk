@@ -93,13 +93,6 @@ describe 'check_mk class' do
     end
   end
   context 'with encryption_secret' do
-    encryption_file = case fact('os.family')
-                      when 'Debian'
-                        '/etc/check_mk/encryption.cfg'
-                      when 'RedHat'
-                        '/etc/check-mk-agent/encryption.cfg'
-                      end
-
     it 'works idempotently with no errors' do
       pp = <<-EOS
       class { 'check_mk::agent':
@@ -116,7 +109,7 @@ describe 'check_mk class' do
     describe port(6556) do
       it { is_expected.to be_listening }
     end
-    describe file(encryption_file) do
+    describe file('/etc/check_mk/encryption.cfg') do
       its(:content) { is_expected.to match %r{PASSPHRASE=mysecret} }
     end
 

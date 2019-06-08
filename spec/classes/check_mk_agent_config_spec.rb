@@ -70,26 +70,14 @@ describe 'check_mk::agent::config' do
           }
         end
 
-        case facts[:osfamily]
-        when 'RedHat'
-          it {
-            is_expected.to contain_file('encryption_config').with(
-              'ensure'  => 'file',
-              'mode'    => '0600',
-              'path'    => '/etc/check-mk-agent/encryption.cfg',
-              'content' => %r{PASSPHRASE=SECRET\n}
-            )
-          }
-        when 'Debian'
-          it {
-            is_expected.to contain_file('encryption_config').with(
-              'ensure'  => 'file',
-              'mode'    => '0600',
-              'path'    => '/etc/check_mk/encryption.cfg',
-              'content' => %r{PASSPHRASE=SECRET\n}
-            )
-          }
-        end
+        it {
+          is_expected.to contain_file('encryption_config').with(
+            'ensure'  => 'file',
+            'mode'    => '0600',
+            'path'    => '/etc/check_mk/encryption.cfg',
+            'content' => %r{PASSPHRASE=SECRET\n}
+          )
+        }
       end
 
       describe 'use_xinetd' do
