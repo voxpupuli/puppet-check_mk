@@ -24,11 +24,19 @@ class check_mk::agent::config (
   }
 
   if $encryption_secret {
-    file {'encryption_config':
+    file { "${config_dir}/encryption.cfg":
       ensure  => file,
       mode    => '0600',
-      path    => "${config_dir}/encryption.cfg",
-      content => Sensitive(template('check_mk/agent/encryption.cfg.erb')),
+      content => Sensitive(epp(
+        'check_mk/agent/encryption.cfg.epp',
+        {
+          'encryption_secret' => $encryption_secret,
+        },
+      )),
+    }
+  } else {
+    file { "${config_dir}/encryption.cfg":
+      ensure => absent,
     }
   }
 

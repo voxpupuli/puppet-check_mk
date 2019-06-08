@@ -1,0 +1,6 @@
+<%- |
+  String $encryption_secret,
+| -%>
+# THIS FILE IS MANAGED BY PUPPET
+ENCRYPTED=yes
+PASSPHRASE=<%= $encryption_secret %>

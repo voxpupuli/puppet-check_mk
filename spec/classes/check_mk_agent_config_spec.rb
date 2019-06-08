@@ -61,6 +61,7 @@ describe 'check_mk::agent::config' do
 
       context 'with default parameters' do
         it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_file('/etc/check_mk/encryption.cfg').with_ensure('absent') }
       end
 
       context 'with encryption_secret parameter set' do
@@ -71,10 +72,9 @@ describe 'check_mk::agent::config' do
         end
 
         it {
-          is_expected.to contain_file('encryption_config').with(
+          is_expected.to contain_file('/etc/check_mk/encryption.cfg').with(
             'ensure'  => 'file',
             'mode'    => '0600',
-            'path'    => '/etc/check_mk/encryption.cfg',
             'content' => %r{PASSPHRASE=SECRET\n}
           )
         }
