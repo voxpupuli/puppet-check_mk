@@ -22,7 +22,7 @@ class check_mk::agent (
   Stdlib::Absolutepath $workspace = '/root/check_mk',
   Optional[String] $package = 'check-mk-agent',
   Hash $mrpe_checks = {},
-  Optional[String] $encryption_secret = undef,
+  Optional[String[1]] $encryption_secret = undef,
   Boolean $use_xinetd = !fact('systemd'),
   Stdlib::Absolutepath $check_mk_xinetd_path = '/etc/xinetd.d/check_mk',
   Array[Stdlib::IP::Address] $ip_whitelist = [],
@@ -31,8 +31,8 @@ class check_mk::agent (
   Stdlib::Port $port = 6556,
   String[1] $user = 'root',
   String[1] $group = $user,
-  Stdlib::Absolutepath $config_dir = $check_mk::agent::params::config_dir,
-) inherits check_mk::agent::params {
+  Stdlib::Absolutepath $config_dir = '/etc/check_mk',
+) {
 
   include check_mk::agent::install
   include check_mk::agent::config

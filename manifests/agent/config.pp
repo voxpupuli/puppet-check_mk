@@ -24,11 +24,19 @@ class check_mk::agent::config (
   }
 
   if $encryption_secret {
-    file {'encryption_config':
+    file { "${config_dir}/encryption.cfg":
       ensure  => file,
       mode    => '0600',
-      path    => "${config_dir}/encryption.cfg",
-      content => template('check_mk/agent/encryption.cfg.erb'),
+      content => Sensitive(epp(
+        'check_mk/agent/encryption.cfg.epp',
+        {
+          'encryption_secret' => $encryption_secret,
+        },
+      )),
+    }
+  } else {
+    file { "${config_dir}/encryption.cfg":
+      ensure => absent,
     }
   }
 
@@ -54,10 +62,14 @@ class check_mk::agent::config (
     $user_changes    = ["set service/user ${user}", "set service/group ${group}"]
     $disable_changes = ['set service/disable no']
 
+    # LC_ALL environment variable must be unset to prevent a bash warning ending up in the xinetd stream
+    # output and breaking the $encryption_secret feature.
+    $env_changes     = ['rm service/env', 'set service/env/value[last()+1] "LC_ALL="']
+
     augeas { 'check_mk xinetd config':
       incl    => $check_mk_xinetd_path,
       lens    => 'xinetd.lns',
-      changes => $only_from_changes + $server_changes + $port_changes + $user_changes + $disable_changes,
+      changes => $only_from_changes + $server_changes + $port_changes + $user_changes + $disable_changes + $env_changes,
     }
   } else {
     augeas { 'Disable check_mk xinetd':
