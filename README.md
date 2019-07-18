@@ -6,183 +6,111 @@
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/check_mk.svg)](https://forge.puppetlabs.com/puppet/check_mk)
 [![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/check_mk.svg)](https://forge.puppetlabs.com/puppet/check_mk)
 
-Puppet module for:
+## Description
+The module installs and configures the Open Monitoring Distribution (OMD) which includes Nagios, check_mk and lots of other tools. Beside the server component, the module is also able to install and configure the check_mk agent.
 
-* Installing and configuring the Open Monitoring Distribution (OMD) which
-  includes Nagios, check_mk and lots of other tools
+Original coded by erwbgy, forked gnubila-france and finally taken over by Voxpupuli.
 
-* Installing and configuring check_mk agents
+## Setup
+The module has been tested with:
+  * CentOS 6 and 7;
+  * Debian 8 and 9;
+  * Puppet version 5 and Puppet 6;
+  * check_mk version 1.5.x.
 
-Agent hostnames are automatically added to the server all_hosts configuration
-using stored configs.
+Also it requires the following forge modules:
+  * puppetlabs/concat
+  * puppetlabs/stdlib
+  * camptocamp/systemd
 
-Original code by erwbgy, forked as upstream seems unmaintained.
+## Usage
+### Server
+#### Basic usage
+The following code will install check_mk and create one 'omd site'. Once this is done you should be able to access it by visiting:
 
-## Server
+```http://<IP of the machine>/monitoring/```
 
-* Installs omd package either using the system repository (eg. yum, apt) or
-  from a package file retrieved from the Puppet file store
+Debian 9:
+```puppet
+class { 'check_mk':
+  filestore => 'https://mathias-kettner.de/support/1.5.0p19/',
+  package   => 'check-mk-raw-1.5.0p19_0.stretch_amd64.deb',
+}
+```
 
-* Populates the all_hosts array in /etc/check_mk/main.mk with hostnames
-  exported by check::agent classes on agent hosts
+CentOS 7:
+```puppet
+class { 'check_mk':
+  filestore => 'https://mathias-kettner.de/support/1.5.0p19/',
+  package   => 'check-mk-raw-1.5.0p19-el7-38.x86_64.rpm',
+}
+```
 
-### Example 1
+Before you are able to login you have to reset the default admin password:
 
-    include check_mk
+```
+su - monitoring
+htpasswd -i ~/etc/passwd cmkadmin
+```
 
-Installs the 'monitoring' package from the system repository. The default 'monitoring' site is used.
+#### Changing default site name
+The following example changes the default site name from 'monitoring' to 'differentsitename'
+```puppet
+class { 'check_mk':
+  site => 'differentsitename',
+}
+```
 
-### Example 2
+#### Without direct internet access
+For machines without direct internet connection a different 'filestore' is required. First download [the required installation files](https://checkmk.com/download.php?) on a machine with direct internet access and move the file onto the system (for example to: '/tmp').
 
-    class { 'check_mk':
-      filestore => 'puppet:///files/check_mk',
-      package   => 'omd-0.56-rh60-29.x86_64.rpm'
-    }
+```puppet
+class { 'check_mk':
+  filestore => '/tmp',
+  package   => 'check-mk-raw-1.5.0p19-el7-38.x86_64.rpm',
+}
+```
 
-Installs the specified omd package after retrieving it from the Puppet file store.
+The [puppet fileserver](https://puppet.com/docs/puppet/6.6/file_serving.html) can also be used.
 
-### Example 3
+```puppet
+class { 'check_mk':
+  filestore => 'puppet:///<NAME OF MOUNT POINT>',
+  package   => 'check-mk-raw-1.5.0p19-el7-38.x86_64.rpm',
+}
+```
 
-    class { 'check_mk':
-      site => 'acme',
-    }
+### Agent
+#### Basic usage
+To install the check_mk agent a check_mk server needs to be up and running. Because the check_mk server will be used as a distribution point for the agent package.
 
-Installs the omd package from the system repository.  A site called 'acme' is
-created making the URL http://hostname/acme/check_mk/ running as the 'acme' user.
+Debian 9:
+```puppet
+class { 'check_mk::agent':
+  filestore => 'http://<url of the check_mk server>/monitoring/check_mk/agents/',
+  package   => 'check-mk-agent_1.5.0p19-1_all.deb',
+}
+```
 
-### check_mk parameters
+CentOS 7:
+```puppet
+class { 'check_mk::agent':
+  filestore => 'http://<url of the check_mk server>/monitoring/check_mk/agents/',
+  package   => 'check-mk-agent-1.5.0p19-1.noarch.rpm',
+}
+```
 
-*package*: The omd package (rpm or deb) to install. Optional.
+#### Securing agent
+The agent has the ability to implement a whitelist of check_mk servers to limited access only to those servers. To increase the security of the check_mk agent you can implement the following:
+  * Encrypt communication with a secret. See [the check_mk website](https://checkmk.com/cms_agent_linux.html#encryption) for more information.
+  * Implement whitelisting on the agent.
+  * Implement a strict incoming firewall which only allows access on port 6556 from the check_mk server. The firewall can be configured using the puppetlabs/firewall module.
 
-*filestore*: The Puppet file store location where the package can be found (eg. 'puppet:///files/check_mk'). Optional.
+The following code implements a whitelist and a communication secret:
 
-*host_groups*: A hash with the host group names as the keys with a list of host tags to match as values. (See 'Host groups and tags' below). Optional.
-
-*site*: The name of the omd site (and the user/group it runs as). Default: 'monitoring'
-
-*workspace*: The directory to use to store files used during installation.  Default: '/root/check_mk'
-
-### Notes
-
-* A user and group with the same value as the site parameter is created.  By default this is 'monitoring'.
-
-* The URL is http://yourhostname/sitename/check_mk/ - for example http://monhost.domain/monitoring/check_mk/
-
-* The default username/password is omdadmin/omd. To change this or add additional users log in as the site user and run htpasswd - for example:
-
-    monitoring$ htpasswd -b ~/etc/htpasswd guest guest
-
-* A user called 'guest' is configured as a guest user but is not enabled unless a password is set (as above).
-
-* RedHat-like RPM downloads from http://files.omdistro.org/releases/centos_rhel/
-
-## Agent
-
-* Installs the check_mk-agent package.
-
-* Configures the /etc/xinetd.d/check_mk configuration file or systemd drop-in files when using systemd.
-
-### Example 1
-
-    include check_mk::agent
-
-Installs the check_mk package from the system repository
-and configures check\_mk with no IP whitelist restrictions.
-
-### Example 2
-
-    class { 'check_mk::agent':
-      version => '1.2.0p3-1',
-      ip_whitelist => [ '10.7.96.21', '10.7.96.22' ],
-    }
-
-Installs the specified versions of the check_mk package
-after retrieving them from the Puppet file store.  On non systemd systems, configures
-/etc/xinetd.d/check\_mk so that only the specified IPs (and localhost/127.0.0.1)
-are allowed to connect. On systemd systems that support the `IPAddressAllow` option,
-that is used instead.  On older systemd versions (notably EL7 variants), an error is raised.
-Instead of using this parameter, configure iptables/firewalld or set `use_xinetd => true` to
-force the use of xinetd.
-
-### check_mk::agent parameters
-
-*filestore*: The Puppet file store location where the packages can be found (eg. 'puppet:///files/check_mk'). Optional.
-
-*ip_whitelist*: The list of IP addresses that are allowed to retrieve check_mk
-data. (Note that localhost is always allowed to connect.) By default any IP can
-connect.
-
-*port*: The port the check_mk agent listens on. Default: '6556'
-
-*server_dir*: The directory in which the check_mk_agent executable is located.
-Default: '/usr/bin'
-
-*use_cache*: Whether or not to cache the results - useful with redundant
-monitoring server setups.  Default: 'false'
-
-*user*: The user that the agent runs as. Default: 'root'
-
-*version*: The version in the check_mk packages - for example if the RPM is
-'check_mk-agent-1.2.0p3-1.noarch.rpm' then the version is '1.2.0p3-1'.
-Only required if a filestore is used.
-
-*workspace*: The directory to use to store files used during installation.
-Default: '/root/check_mk'
-
-*mrpe_checks*: Specifies a hash of check_mk::agent::mrpe resources to create. Default: {}
-
-## Host groups and tags
-
-By default check_mk puts all hosts into a group called 'check_mk' but where you
-have more than a few you will often want your own groups.  We can do this by
-setting host tags on the agents and then configuring host groups on the server
-side to match hosts with these tags.
-
-For example in the hiera config for your agent hosts you could have:
-
-    check_mk::agent::host_tags:
-      - '%{osfamily}'
-
-and on the monitoring host you could have:
-
-    check_mk::host_groups:
-      RedHat:
-        description: 'RedHat or_CentOS hosts'
-        host_tags:
-          - RedHat
-      Debian:
-        description: 'Debian or Ubuntu_hosts'
-        host_tags:
-          - Debian
-      SuSE:
-        description: 'SuSE hosts'
-        host_tags:
-          - Suse
-
-You can of course have as many host tags as you like. I have custom facts for
-the server role and the environment type (dev, qa, stage, prod) and define
-groups based on the role and envtype host tags.
-
-Remember to run the Puppet agent on your agent hosts to export any host tags
-and run the Puppet agent on the monitoring host to pick up any changes to the
-host groups.
-
-## Static host config
-
-Hosts that do not run Puppet with the check_mk module needs to get added to hiera.
-check_mk::config creates the config file
-/omd/sites/monitoring/etc/check_mk/all_hosts_static from a template.
-The template will look for hiera variables.
-The hiera variable check_mk::all_hosts_static has to be an array:
-
-check_mk::all_hosts_static:
-  - host1.domain
-  - host2.domain
-
-
-You can also include host tags - for example:
-
-check_mk::all_hosts_static:
-  - host1.domain|windows|dev,
-  - host2.domain|windows|prod,
-
+```puppet
+class { 'check_mk::agent':
+  ip_whitelist      => ['10.0.0.1'],
+  encryption_secret => 'SECRET',
+}
+```
