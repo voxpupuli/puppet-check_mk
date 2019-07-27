@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v0.8.1](https://github.com/voxpupuli/puppet-check_mk/tree/v0.8.1) (2019-07-27)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/v0.8.0...v0.8.1)
+
+Version 0.8.0 failed to deploy to the puppet forge.  This is a re-release with no other changes.
+
 ## [v0.8.0](https://github.com/voxpupuli/puppet-check_mk/tree/v0.8.0) (2019-07-27)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/0.7.2...v0.8.0)
