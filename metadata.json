@@ -1,15 +1,17 @@
 {
   "name": "puppet-check_mk",
-  "version": "0.8.0",
+  "version": "0.8.1-rc0",
   "author": "Vox Pupuli",
   "license": "Apache-2.0",
   "summary": "Check_MK installation and configuration",
   "source": "https://github.com/voxpupuli/puppet-check_mk",
   "project_page": "https://github.com/voxpupuli/puppet-check_mk",
   "issues_url": "https://github.com/voxpupuli/puppet-check_mk/issues",
-
-  "tags": [ "check_mk", "monitoring", "nagios" ],
-
+  "tags": [
+    "check_mk",
+    "monitoring",
+    "nagios"
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
@@ -50,8 +52,17 @@
     }
   ],
   "dependencies": [
-    { "name": "puppetlabs/concat", "version_requirement": ">= 4.1.0 < 7.0.0" },
-    { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.25.0 < 7.0.0" },
-    { "name": "camptocamp/systemd", "version_requirement": ">= 1.1.0 < 3.0.0" }
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 4.1.0 < 7.0.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.25.0 < 7.0.0"
+    },
+    {
+      "name": "camptocamp/systemd",
+      "version_requirement": ">= 1.1.0 < 3.0.0"
+    }
   ]
 }
