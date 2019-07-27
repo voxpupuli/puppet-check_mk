@@ -1,6 +1,6 @@
 {
   "name": "puppet-check_mk",
-  "version": "0.8.0-rc0",
+  "version": "0.8.0",
   "author": "Vox Pupuli",
   "license": "Apache-2.0",
   "summary": "Check_MK installation and configuration",
@@ -43,7 +43,12 @@
       ]
     }
   ],
-
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 5.5.8 < 7.0.0"
+    }
+  ],
   "dependencies": [
     { "name": "puppetlabs/concat", "version_requirement": ">= 4.1.0 < 7.0.0" },
     { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.25.0 < 7.0.0" },
