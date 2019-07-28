@@ -9,7 +9,7 @@
 ## Description
 The module installs and configures the Open Monitoring Distribution (OMD) which includes Nagios, check_mk and lots of other tools. Beside the server component, the module is also able to install and configure the check_mk agent.
 
-Original coded by erwbgy, forked gnubila-france and finally taken over by Voxpupuli.
+Originally by [erwbgy](https://forge.puppet.com/erwbgy), then forked by [gnúbila France](https://forge.puppet.com/gnubilafrance) and now maintained by [Vox Pupuli](https://voxpupuli.org).
 
 ## Setup
 The module has been tested with:
@@ -104,7 +104,7 @@ class { 'check_mk::agent':
 The agent has the ability to implement a whitelist of check_mk servers to limited access only to those servers. To increase the security of the check_mk agent you can implement the following:
   * Encrypt communication with a secret. See [the check_mk website](https://checkmk.com/cms_agent_linux.html#encryption) for more information.
   * Implement whitelisting on the agent.
-  * Implement a strict incoming firewall which only allows access on port 6556 from the check_mk server. The firewall can be configured using the puppetlabs/firewall module.
+  * Implement a strict incoming firewall which only allows access on port 6556 from the check_mk server. The firewall can be configured using the [puppetlabs/firewall](https://forge.puppet.com/puppetlabs/firewall) module.
 
 The following code implements a whitelist and a communication secret:
 
