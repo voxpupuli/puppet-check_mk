@@ -306,6 +306,26 @@ describe 'check_mk::agent::config' do
                 end
               end
             end
+
+            context 'with non-standard unit name' do
+              let(:params) do
+                {
+                  service_name: 'custom-check-mk-agent'
+                }
+              end
+
+              it do
+                is_expected.to contain_systemd__dropin_file('check_mk socket overrides').with(
+                  unit: 'custom-check-mk-agent.socket'
+                )
+              end
+
+              it do
+                is_expected.to contain_systemd__dropin_file('check_mk unit overrides').with(
+                  unit: 'custom-check-mk-agent@.service'
+                )
+              end
+            end
           else
             it { is_expected.to compile.and_raise_error(%r{Your system doesn't appear to support systemd, you must use xinetd instead}) }
           end

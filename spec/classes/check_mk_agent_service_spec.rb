@@ -6,7 +6,7 @@ describe 'check_mk::agent::service' do
       let(:facts) { facts }
 
       context 'when using xinetd' do
-        let(:params) { { use_xinetd: true } }
+        let(:params) { { use_xinetd: true, service_name: 'check_mk' } }
 
         it { is_expected.to contain_package('xinetd') }
         it { is_expected.to contain_service('check_mk.socket').with_ensure('stopped').with_enable(false) }
@@ -20,7 +20,7 @@ describe 'check_mk::agent::service' do
         }
       end
       context 'when using systemd' do
-        let(:params) { { use_xinetd: false } }
+        let(:params) { { use_xinetd: false, service_name: 'check_mk' } }
 
         it { is_expected.not_to contain_package('xinetd') }
         it {
@@ -35,6 +35,16 @@ describe 'check_mk::agent::service' do
             'enable' => true
           ).that_requires('Service[xinetd]')
         }
+
+        context 'with non-standard service name' do
+          let(:params) do
+            super().merge(service_name: 'custom-check-mk-agent')
+          end
+
+          it do
+            is_expected.to contain_service('custom-check-mk-agent.socket')
+          end
+        end
       end
     end
   end

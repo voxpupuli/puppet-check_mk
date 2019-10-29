@@ -6,13 +6,14 @@
 #
 class check_mk::agent::service (
   Boolean $use_xinetd = $check_mk::agent::use_xinetd,
+  String $service_name = $check_mk::agent::service_name,
 )
 {
   if $use_xinetd {
     ensure_packages(['xinetd'])
     Package['xinetd'] ~> Service['xinetd']
 
-    service { 'check_mk.socket':
+    service { "${service_name}.socket":
       ensure => 'stopped',
       enable => false,
       notify => Service['xinetd'],
@@ -40,7 +41,7 @@ class check_mk::agent::service (
         restart    => 'kill -USR2 `pidof xinetd` && sleep 1',
       }
     }
-    service { 'check_mk.socket':
+    service { "${service_name}.socket":
       ensure  => 'running',
       enable  => true,
       require => Service['xinetd'],
