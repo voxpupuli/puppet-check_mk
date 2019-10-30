@@ -21,6 +21,7 @@ class check_mk::agent (
   Optional[Array] $host_tags = undef,
   Stdlib::Absolutepath $workspace = '/root/check_mk',
   Optional[String] $package = 'check-mk-agent',
+  Optional[String[1]] $service_name = 'check_mk',
   Hash $mrpe_checks = {},
   Optional[String[1]] $encryption_secret = undef,
   Boolean $use_xinetd = !fact('systemd'),

@@ -14,6 +14,7 @@ class check_mk::agent::config (
   String[1]                  $user                 = $check_mk::agent::user,
   String[1]                  $group                = $check_mk::agent::group,
   Stdlib::Absolutepath       $config_dir           = $check_mk::agent::config_dir,
+  String[1]                  $service_name         = $check_mk::agent::service_name,
 ) inherits check_mk::agent {
   if $use_xinetd == false and fact('systemd') == false {
     fail('Your system doesn\'t appear to support systemd, you must use xinetd instead')
@@ -85,7 +86,7 @@ class check_mk::agent::config (
 
     systemd::dropin_file { 'check_mk socket overrides':
       filename => 'puppet.conf',
-      unit     => 'check_mk.socket',
+      unit     => "${service_name}.socket",
       content  => epp(
         'check_mk/agent/check_mk.socket-drop-in.epp',
         {
@@ -96,7 +97,7 @@ class check_mk::agent::config (
     }
     systemd::dropin_file { 'check_mk unit overrides':
       filename => 'puppet.conf',
-      unit     => 'check_mk@.service',
+      unit     => "${service_name}@.service",
       content  => epp(
         'check_mk/agent/check_mk.service-drop-in.epp',
         {
