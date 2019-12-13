@@ -42,7 +42,7 @@ class check_mk::agent (
   -> Class['check_mk::agent::config']
   ~> Class['check_mk::agent::service']
 
-  @@check_mk::host { $facts['fqdn']:
+  @@check_mk::host { $facts['networking']['fqdn']:
     host_tags => $host_tags,
   }
 
