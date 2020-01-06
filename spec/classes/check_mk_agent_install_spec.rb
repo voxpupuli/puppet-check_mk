@@ -32,6 +32,17 @@ describe 'check_mk::agent::install' do
       }
     end
 
+    context "with custom package_ensure on #{os}" do
+      let(:facts) { os_facts }
+      let(:params) do
+        {
+          package_ensure: '1.2.8p27-1'
+        }
+      end
+
+      it { is_expected.to contain_package('check_mk-agent').with_ensure('1.2.8p27-1') }
+    end
+
     context "with filestore on #{os}" do
       let(:facts) { os_facts }
       let(:params) do

@@ -5,6 +5,7 @@
 # @param host_tags Tags that needs to be added to the node if resource export is enabled.
 # @param workspace Temp folder where the installation file will be placed.
 # @param package The package name to be installed.
+# @param package_ensure The `ensure` value to use when installing the agent from a package repository, (when `filestore` is not set). This option can be used to install a specific package version.
 # @param mrpe_checks A hash containing mrpe command that will be passed to the mrpe defined type.
 # @param encryption_secret A secret that will be used to encrypt communication with the master.
 # @param config_dir The config directory for the agent.
@@ -21,6 +22,7 @@ class check_mk::agent (
   Optional[Array] $host_tags = undef,
   Stdlib::Absolutepath $workspace = '/root/check_mk',
   Optional[String] $package = 'check-mk-agent',
+  String[1] $package_ensure = 'present',
   Optional[String[1]] $service_name = 'check_mk',
   Hash $mrpe_checks = {},
   Optional[String[1]] $encryption_secret = undef,
