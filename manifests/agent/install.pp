@@ -4,9 +4,10 @@
 # @api private
 #
 class check_mk::agent::install (
-  $filestore = $check_mk::agent::filestore,
-  $workspace = $check_mk::agent::workspace,
-  $package   = $check_mk::agent::package,
+  $filestore      = $check_mk::agent::filestore,
+  $workspace      = $check_mk::agent::workspace,
+  $package        = $check_mk::agent::package,
+  $package_ensure = $check_mk::agent::package_ensure,
 ) inherits check_mk::agent {
   if $filestore {
     if ! defined(File[$workspace]) {
@@ -44,7 +45,7 @@ class check_mk::agent::install (
     }
   } else {
     package { 'check_mk-agent':
-      ensure => present,
+      ensure => $package_ensure,
       name   => $package,
     }
   }
