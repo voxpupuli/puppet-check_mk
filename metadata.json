@@ -1,6 +1,6 @@
 {
   "name": "puppet-check_mk",
-  "version": "0.9.0",
+  "version": "0.9.1-rc0",
   "author": "Vox Pupuli",
   "license": "Apache-2.0",
   "summary": "Check_MK installation and configuration",
