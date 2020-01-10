@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v0.9.0](https://github.com/voxpupuli/puppet-check_mk/tree/v0.9.0) (2020-01-10)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/v0.8.1...v0.9.0)
+
+**Breaking changes:**
+
+- Remove support for EOL operating systems [\#21](https://github.com/voxpupuli/puppet-check_mk/pull/21) ([alexjfisher](https://github.com/alexjfisher))
+
+**Implemented enhancements:**
+
+- Add `package_ensure` parameter to agent class [\#25](https://github.com/voxpupuli/puppet-check_mk/pull/25) ([alexjfisher](https://github.com/alexjfisher))
+- Add `service_name` parameter to agent class [\#22](https://github.com/voxpupuli/puppet-check_mk/pull/22) ([mmerfort](https://github.com/mmerfort))
+
+**Closed issues:**
+
+- Migrate module to vox pupuli [\#1](https://github.com/voxpupuli/puppet-check_mk/issues/1)
+
 ## [v0.8.1](https://github.com/voxpupuli/puppet-check_mk/tree/v0.8.1) (2019-07-27)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/v0.8.0...v0.8.1)
@@ -24,16 +41,16 @@ Support for End Of Life operating systems will be removed after this release.
 
 **Fixed bugs:**
 
-- Fix RedHat agent `config\_dir` and test and fix `encryption\_secret` [\#12](https://github.com/voxpupuli/puppet-check_mk/pull/12) ([alexjfisher](https://github.com/alexjfisher))
+- Fix RedHat agent `config_dir` and test and fix `encryption_secret` [\#12](https://github.com/voxpupuli/puppet-check_mk/pull/12) ([alexjfisher](https://github.com/alexjfisher))
 
 **Merged pull requests:**
 
 - Updating README [\#14](https://github.com/voxpupuli/puppet-check_mk/pull/14) ([zyronix](https://github.com/zyronix))
-- Replace `create\_resources` with iteration [\#13](https://github.com/voxpupuli/puppet-check_mk/pull/13) ([alexjfisher](https://github.com/alexjfisher))
+- Replace `create_resources` with iteration [\#13](https://github.com/voxpupuli/puppet-check_mk/pull/13) ([alexjfisher](https://github.com/alexjfisher))
 - Allow `puppetlabs` `stdlib` and `concat` 6.x [\#11](https://github.com/voxpupuli/puppet-check_mk/pull/11) ([alexjfisher](https://github.com/alexjfisher))
 - Acceptance tests [\#8](https://github.com/voxpupuli/puppet-check_mk/pull/8) ([zyronix](https://github.com/zyronix))
 - Support check\_mk 1.5+ [\#6](https://github.com/voxpupuli/puppet-check_mk/pull/6) ([zyronix](https://github.com/zyronix))
-- Remove `install\_tarball` class and tests [\#5](https://github.com/voxpupuli/puppet-check_mk/pull/5) ([alexjfisher](https://github.com/alexjfisher))
+- Remove `install_tarball` class and tests [\#5](https://github.com/voxpupuli/puppet-check_mk/pull/5) ([alexjfisher](https://github.com/alexjfisher))
 - Fix rubocop violations [\#4](https://github.com/voxpupuli/puppet-check_mk/pull/4) ([alexjfisher](https://github.com/alexjfisher))
 - Vox Pupuli migration [\#2](https://github.com/voxpupuli/puppet-check_mk/pull/2) ([alexjfisher](https://github.com/alexjfisher))
 
