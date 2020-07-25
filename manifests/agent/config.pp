@@ -29,10 +29,10 @@ class check_mk::agent::config (
       ensure  => file,
       mode    => '0600',
       content => Sensitive(epp(
-        'check_mk/agent/encryption.cfg.epp',
-        {
-          'encryption_secret' => $encryption_secret,
-        },
+          'check_mk/agent/encryption.cfg.epp',
+          {
+            'encryption_secret' => $encryption_secret,
+          },
       )),
     }
   } else {

@@ -57,7 +57,7 @@ describe 'check_mk::agent::install' do
         is_expected.to compile
         is_expected.to contain_class('check_mk::agent::install')
         is_expected.to contain_file('/workspace/check-mk-agent_1.5.0p7-1_all.deb').with(
-          'ensure' => 'present',
+          'ensure' => 'file',
           'source' => '/filestore/check-mk-agent_1.5.0p7-1_all.deb'
         )
         is_expected.to contain_package('check_mk-agent').with(

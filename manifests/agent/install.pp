@@ -29,7 +29,7 @@ class check_mk::agent::install (
       $package_name = $1
 
       file { "${workspace}/${package}":
-        ensure => present,
+        ensure => file,
         source => "${filestore}/${package}",
       }
 
