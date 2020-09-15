@@ -17,7 +17,7 @@ class check_mk::install (
       }
     }
     file { "${workspace}/${package}":
-      ensure  => present,
+      ensure  => file,
       source  => "${filestore}/${package}",
       require => File[$workspace],
     }
@@ -28,11 +28,11 @@ class check_mk::install (
       $package_name = $1
 
       if $type == 'deb' {
-        package {'gdebi':
+        package { 'gdebi':
           ensure => present,
         }
 
-        exec {'install-check-mk':
+        exec { 'install-check-mk':
           command => "/usr/bin/gdebi --non-interactive ${workspace}/${package}",
           unless  => "/usr/bin/dpkg-query -W --showformat '\${Status} \${Package}\\n' | grep ${package_name} | grep -q 'install ok installed'", # lint:ignore:140chars
           require => Package['gdebi'],

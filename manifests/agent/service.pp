@@ -7,8 +7,7 @@
 class check_mk::agent::service (
   Boolean $use_xinetd = $check_mk::agent::use_xinetd,
   String $service_name = $check_mk::agent::service_name,
-)
-{
+) {
   if $use_xinetd {
     ensure_packages(['xinetd'])
     Package['xinetd'] ~> Service['xinetd']
