@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v0.10.0](https://github.com/voxpupuli/puppet-check_mk/tree/v0.10.0) (2020-09-19)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/v0.9.1...v0.10.0)
+
+0.10.0 is the last release with Debian 8 support! the next release will be 1.0.0 without support for the EOL Debian 8.
+
+**Merged pull requests:**
+
+- modulesync 3.0.0 & puppet-lint updates [\#32](https://github.com/voxpupuli/puppet-check_mk/pull/32) ([bastelfreak](https://github.com/bastelfreak))
+- Use voxpupuli-acceptance [\#31](https://github.com/voxpupuli/puppet-check_mk/pull/31) ([ekohl](https://github.com/ekohl))
+
 ## [v0.9.1](https://github.com/voxpupuli/puppet-check_mk/tree/v0.9.1) (2020-01-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/v0.9.0...v0.9.1)
