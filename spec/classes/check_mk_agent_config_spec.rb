@@ -22,15 +22,6 @@ describe 'check_mk::agent::config' do
                         end
                       when 'Debian'
                         case facts[:operatingsystemmajrelease]
-                        when '7'
-                          {
-                            'systemd'         => false, # systemd was only a tech preview and not enabled by default
-                          }
-                        when '8'
-                          {
-                            'systemd'         => true,
-                            'systemd_version' => '215'
-                          }
                         when '9'
                           {
                             'systemd'         => true,
@@ -84,8 +75,6 @@ describe 'check_mk::agent::config' do
         context 'by default' do
           it 'sets use_xinetd based on OS' do
             if facts[:osfamily] == 'RedHat' && facts[:operatingsystemmajrelease] =~ %r{^5|6}
-              is_expected.to contain_class('check_mk::agent::config').with_use_xinetd(true)
-            elsif facts[:osfamily] == 'Debian' && facts[:operatingsystemmajrelease] == '7'
               is_expected.to contain_class('check_mk::agent::config').with_use_xinetd(true)
             else
               is_expected.to contain_class('check_mk::agent::config').with_use_xinetd(false)

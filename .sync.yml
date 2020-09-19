@@ -7,7 +7,6 @@
     - set: centos7-64
     - set: centos6-64
     - set: debian9-64
-    - set: debian8-64
 spec/acceptance/nodesets/ec2/amazonlinux-2016091.yml:
   delete: true
 spec/acceptance/nodesets/ec2/image_templates.yaml:
