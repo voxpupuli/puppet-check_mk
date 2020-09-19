@@ -7,7 +7,6 @@ class check_mk (
   $site             = $check_mk::params::site,
   $workspace        = $check_mk::params::workspace,
 ) inherits check_mk::params {
-
   class { 'check_mk::install':
     filestore => $filestore,
     package   => $package,

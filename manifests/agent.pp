@@ -36,7 +36,6 @@ class check_mk::agent (
   String[1] $group = $user,
   Stdlib::Absolutepath $config_dir = '/etc/check_mk',
 ) {
-
   include check_mk::agent::install
   include check_mk::agent::config
   include check_mk::agent::service
