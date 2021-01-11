@@ -30,7 +30,7 @@ class check_mk::install (
       $package_name = $1
 
       if $type == 'deb' {
-        ensure_packages { ['gdebi', 'xz-utils']:
+        package { ['gdebi', 'xz-utils']:
           ensure => present,
         }
 
