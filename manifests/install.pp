@@ -26,7 +26,7 @@ class check_mk::install (
     # check-mk-raw-1.5.0p7_0.stretch_amd64.deb
     # check-mk-enterprise-2.0.0b3_0.buster_amd64.deb (beta)
     if $package =~ /^(check-mk-(\w*))(-|_)(\d*\.\d*\.\d*[pb]\d*).+\.(\w+)$/ {
-      $type = $3
+      $type = $5
       $package_name = $1
 
       if $type == 'deb' {
