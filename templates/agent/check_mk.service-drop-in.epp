@@ -5,6 +5,9 @@
 | -%>
 # THIS FILE IS MANAGED BY PUPPET
 [Service]
+# Reset command list.
+# See https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStart=
+# "If the empty string is assigned to this option, the list of commands to start is reset, prior assignments of this option will have no effect".
 ExecStart=
 ExecStart=<%= $server %>
 User=<%= $user %>
