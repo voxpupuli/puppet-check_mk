@@ -9,6 +9,8 @@
 # See https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStart=
 # "If the empty string is assigned to this option, the list of commands to start is reset, prior assignments of this option will have no effect".
 ExecStart=
-ExecStart=<%= $server %>
+# "-" path prefix makes systemd record the exit code,
+# but the unit is not set to failed.
+ExecStart=-<%= $server %>
 User=<%= $user %>
 Group=<%= $group %>
