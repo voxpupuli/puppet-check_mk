@@ -65,9 +65,10 @@ describe 'check_mk::agent::config' do
         it {
           is_expected.to contain_file('/etc/check_mk/encryption.cfg').with(
             'ensure'  => 'file',
-            'mode'    => '0600',
-            'content' => %r{PASSPHRASE=SECRET\n}
+            'mode'    => '0600'
           )
+          content = catalogue.resource('file', '/etc/check_mk/encryption.cfg').parameters[:content]
+          expect(content).to include("PASSPHRASE=SECRET\n")
         }
       end
 
