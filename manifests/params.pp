@@ -9,7 +9,7 @@ class check_mk::params {
   $package = 'check-mk-raw-1.5.0p7-el7-38.x86_64.rpm'
   $filestore = undef
   $host_groups= undef
-  $site = 'monitoring'
+  $monitoring_site = 'monitoring'
   $workspace = '/root/check_mk'
 
   # OS specific variables

@@ -57,7 +57,7 @@ htpasswd -i ~/etc/passwd cmkadmin
 The following example changes the default site name from 'monitoring' to 'differentsitename'
 ```puppet
 class { 'check_mk':
-  site => 'differentsitename',
+  monitoring_site => 'differentsitename',
 }
 ```
 

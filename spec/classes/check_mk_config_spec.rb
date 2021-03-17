@@ -4,7 +4,7 @@ describe 'check_mk::config' do
   on_supported_os.each do |os, os_facts|
     context "with site set on #{os}" do
       let(:facts) { os_facts }
-      let(:params) { { site: 'TEST_SITE' } }
+      let(:params) { { monitoring_site: 'TEST_SITE' } }
 
       it {
         is_expected.to compile
@@ -72,7 +72,7 @@ describe 'check_mk::config' do
       let(:facts) { os_facts }
       let(:params) do
         {
-          site: 'TEST_SITE',
+          monitoring_site: 'TEST_SITE',
           host_groups: {
             group1: {
               host_tags: []
