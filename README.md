@@ -13,7 +13,7 @@ Originally by [erwbgy](https://forge.puppet.com/erwbgy), then forked by [gnúbil
 
 ## Setup
 The module has been tested with:
-  * CentOS 6 and 7;
+  * CentOS 7;
   * Debian 9;
   * Puppet version 5 and Puppet 6;
   * check_mk version 1.5.x.

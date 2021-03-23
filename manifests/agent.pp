@@ -9,8 +9,6 @@
 # @param mrpe_checks A hash containing mrpe command that will be passed to the mrpe defined type.
 # @param encryption_secret A secret that will be used to encrypt communication with the master.
 # @param config_dir The config directory for the agent.
-# @param use_xinetd Configure the service using the older xinetd approach.  Defaults to true on systems missing systemd, and false otherwise.
-# @param check_mk_xinetd_path The path to the xinetd.d config file for check_mk
 # @param ip_whitelist The list of IP addresses that are allowed to retrieve check_mk data. (Note that localhost is always allowed to connect.) By default any IP can connect.
 # @param user The user that the agent runs as.
 # @param group The group that the agent runs as.
@@ -26,8 +24,6 @@ class check_mk::agent (
   Optional[String[1]] $service_name = 'check_mk',
   Hash $mrpe_checks = {},
   Optional[String[1]] $encryption_secret = undef,
-  Boolean $use_xinetd = !fact('systemd'),
-  Stdlib::Absolutepath $check_mk_xinetd_path = '/etc/xinetd.d/check_mk',
   Array[Stdlib::IP::Address] $ip_whitelist = [],
   Stdlib::Absolutepath $server_dir = '/usr/bin',
   Boolean $use_cache = false,

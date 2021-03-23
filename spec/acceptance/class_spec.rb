@@ -63,35 +63,6 @@ describe 'check_mk class' do
       its(:stderr) { is_expected.to eq '' }
     end
   end
-  context 'force agent to use xinetd' do
-    it 'works idempotently with no errors' do
-      pp = <<-EOS
-      class { 'check_mk::agent':
-        use_xinetd => true,
-        filestore  => 'http://127.0.0.1/monitoring/check_mk/agents/',
-        package    => '#{packagename_agent}',
-      }
-      EOS
-
-      # Run it twice and test for idempotency
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
-    end
-
-    describe service('xinetd') do
-      it { is_expected.to be_running }
-    end
-
-    describe port(6556) do
-      it { is_expected.to be_listening }
-    end
-
-    describe command('ncat --recv-only 127.0.0.1 6556') do
-      its(:exit_status) { is_expected.to eq 0 }
-      its(:stdout) { is_expected.to match %r{<<<check_mk>>>} }
-      its(:stderr) { is_expected.to eq '' }
-    end
-  end
   context 'with encryption_secret' do
     it 'works idempotently with no errors' do
       pp = <<-EOS
