@@ -5,16 +5,16 @@
 #
 
 class check_mk::config (
-  String $site,
+  String $monitoring_site,
   Optional[Hash] $host_groups = undef,
   Optional[Array] $all_hosts_static = undef,
 ) {
-  $etc_dir = "/omd/sites/${site}/etc"
-  $bin_dir = "/omd/sites/${site}/bin"
+  $etc_dir = "/omd/sites/${monitoring_site}/etc"
+  $bin_dir = "/omd/sites/${monitoring_site}/bin"
   file { "${etc_dir}/nagios/local":
     ensure => directory,
-    owner  => $site,
-    group  => $site,
+    owner  => $monitoring_site,
+    group  => $monitoring_site,
   }
 
   file_line { 'nagios-add-check_mk-cfg_dir':
@@ -25,8 +25,8 @@ class check_mk::config (
   }
 
   concat { "${etc_dir}/check_mk/main.mk":
-    owner => $site,
-    group => $site,
+    owner => $monitoring_site,
+    group => $monitoring_site,
     mode  => '0644',
   }
 
@@ -42,7 +42,7 @@ class check_mk::config (
     content => template('check_mk/all_hosts_static.erb'),
   }
 
-  # # local list of hosts is in /omd/sites/${site}/etc/check_mk/all_hosts_static and is appended
+  # # local list of hosts is in /omd/sites/${monitoring_site}/etc/check_mk/all_hosts_static and is appended
   concat::fragment { 'all-hosts-static':
     source => "${etc_dir}/check_mk/all_hosts_static",
     target => "${etc_dir}/check_mk/main.mk",
@@ -84,7 +84,7 @@ class check_mk::config (
     }
   }
 
-  # # local config is in /omd/sites/${site}/etc/check_mk/main.mk.local and is appended
+  # # local config is in /omd/sites/${monitoring_site}/etc/check_mk/main.mk.local and is appended
   file { "${etc_dir}/check_mk/main.mk.local":
     ensure => file,
     owner  => 'root',
@@ -99,7 +99,7 @@ class check_mk::config (
   }
 
   exec { 'check_mk-reload':
-    command     => "/bin/su -l -c '${bin_dir}/check_mk --reload' ${site}",
+    command     => "/bin/su -l -c '${bin_dir}/check_mk --reload' ${monitoring_site}",
     refreshonly => true,
   }
 

@@ -8,7 +8,7 @@ describe 'check_mk::install' do
         {
           filestore: '/filestore/',
           package: 'check-mk-raw-1.5.0p7_0.stretch_amd64.deb',
-          site: 'site',
+          monitoring_site: 'site',
           workspace: '/workspace'
         }
       end
@@ -40,7 +40,7 @@ describe 'check_mk::install' do
         {
           filestore: '/filestore/',
           package: 'check-mk-raw-1.5.0p7-el7-38.x86_64.rpm',
-          site: 'site',
+          monitoring_site: 'site',
           workspace: '/workspace'
         }
       end
