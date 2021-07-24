@@ -2,6 +2,6 @@ fixtures:
   repositories:
     stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
     concat: https://github.com/puppetlabs/puppetlabs-concat.git
-    systemd: https://github.com/camptocamp/puppet-systemd.git
+    systemd: https://github.com/voxpupuli/puppet-systemd.git
     augeas_core: https://github.com/puppetlabs/puppetlabs-augeas_core.git
     cron_core: https://github.com/puppetlabs/puppetlabs-cron_core.git
