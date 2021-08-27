@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe 'check_mk::agent::install' do
   on_supported_os.each do |os, facts|
-
     systemd_facts = case facts[:operatingsystem]
                     when 'RedHat', 'CentOS', 'OracleLinux'
                       case facts[:operatingsystemmajrelease]
@@ -37,7 +36,6 @@ describe 'check_mk::agent::install' do
     raise("systemd facts missing for #{os}") if systemd_facts.nil?
 
     context "with default parameters set on #{os}" do
-
       let(:facts) { facts.merge(systemd_facts) }
 
       it {
