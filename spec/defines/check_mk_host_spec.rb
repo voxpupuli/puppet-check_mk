@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe 'check_mk::host', type: :define do
   let :title do
@@ -10,12 +12,14 @@ describe 'check_mk::host', type: :define do
     end
 
     it { is_expected.to contain_check_mk__host('host') }
+
     it {
-      is_expected.to contain_concat__fragment('check_mk-host').with(target: 'target',
-                                                                    content: %r{^  'host',\n$},
-                                                                    order: 11)
+      expect(subject).to contain_concat__fragment('check_mk-host').with(target: 'target',
+                                                                        content: %r{^  'host',\n$},
+                                                                        order: 11)
     }
   end
+
   context 'with custom host_tags' do
     let :params do
       {
@@ -25,10 +29,11 @@ describe 'check_mk::host', type: :define do
     end
 
     it { is_expected.to contain_check_mk__host('host') }
+
     it {
-      is_expected.to contain_concat__fragment('check_mk-host').with(target: 'target',
-                                                                    content: %r{^  'host|tag1|tag2',\n$},
-                                                                    order: 11)
+      expect(subject).to contain_concat__fragment('check_mk-host').with(target: 'target',
+                                                                        content: %r{^  'host|tag1|tag2',\n$},
+                                                                        order: 11)
     }
   end
 end

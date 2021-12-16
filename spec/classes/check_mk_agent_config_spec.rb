@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'check_mk::agent::config' do
@@ -8,7 +10,7 @@ describe 'check_mk::agent::config' do
                         case facts[:operatingsystemmajrelease]
                         when '7'
                           {
-                            'systemd'         => true,
+                            'systemd' => true,
                             'systemd_version' => '219'
                           }
                         end
@@ -16,7 +18,7 @@ describe 'check_mk::agent::config' do
                         case facts[:operatingsystemmajrelease]
                         when '9'
                           {
-                            'systemd'         => true,
+                            'systemd' => true,
                             'systemd_version' => '232'
                           }
                         end
@@ -24,17 +26,18 @@ describe 'check_mk::agent::config' do
                         case facts[:operatingsystemmajrelease]
                         when '18.04'
                           {
-                            'systemd'         => true,
+                            'systemd' => true,
                             'systemd_version' => '237'
                           }
                         when '18.10'
                           {
-                            'systemd'         => true,
+                            'systemd' => true,
                             'systemd_version' => '239'
                           }
                         end
                       end
       raise("systemd facts missing for #{os}") if systemd_facts.nil?
+
       let(:facts) { facts.merge(systemd_facts) }
 
       context 'with default parameters' do
@@ -50,9 +53,9 @@ describe 'check_mk::agent::config' do
         end
 
         it {
-          is_expected.to contain_file('/etc/check_mk/encryption.cfg').with(
-            'ensure'  => 'file',
-            'mode'    => '0600'
+          expect(subject).to contain_file('/etc/check_mk/encryption.cfg').with(
+            'ensure' => 'file',
+            'mode' => '0600'
           )
           content = catalogue.resource('file', '/etc/check_mk/encryption.cfg').parameters[:content]
           expect(content).to include("PASSPHRASE=SECRET\n")
@@ -61,6 +64,7 @@ describe 'check_mk::agent::config' do
 
       describe 'server_dir' do
         it { is_expected.to contain_systemd__dropin_file('check_mk unit overrides').with_content(%r{ExecStart=/usr/bin/check_mk_agent}) }
+
         context 'when set' do
           let(:params) do
             {
@@ -71,8 +75,10 @@ describe 'check_mk::agent::config' do
           it { is_expected.to contain_systemd__dropin_file('check_mk unit overrides').with_content(%r{ExecStart=/server_dir/check_mk_agent}) }
         end
       end
+
       describe 'port' do
         it { is_expected.to contain_systemd__dropin_file('check_mk socket overrides').with_content(%r{ListenStream=6556}) }
+
         context 'when set' do
           let(:params) do
             {
@@ -83,8 +89,10 @@ describe 'check_mk::agent::config' do
           it { is_expected.to contain_systemd__dropin_file('check_mk socket overrides').with_content(%r{ListenStream=6666}) }
         end
       end
+
       describe 'user' do
         it { is_expected.to contain_systemd__dropin_file('check_mk unit overrides').with_content(%r{User=root}) }
+
         context 'when set' do
           let(:params) do
             {
@@ -95,8 +103,10 @@ describe 'check_mk::agent::config' do
           it { is_expected.to contain_systemd__dropin_file('check_mk unit overrides').with_content(%r{User=foo}) }
         end
       end
+
       describe 'group' do
         it { is_expected.to contain_systemd__dropin_file('check_mk unit overrides').with_content(%r{Group=root}) }
+
         context 'when set' do
           let(:params) do
             {
@@ -107,6 +117,7 @@ describe 'check_mk::agent::config' do
           it { is_expected.to contain_systemd__dropin_file('check_mk unit overrides').with_content(%r{Group=foo}) }
         end
       end
+
       describe 'use_cache' do
         context 'when true' do
           let(:params) do
@@ -118,10 +129,12 @@ describe 'check_mk::agent::config' do
           it { is_expected.to contain_systemd__dropin_file('check_mk unit overrides').with_content(%r{ExecStart=/usr/bin/check_mk_caching_agent}) }
         end
       end
+
       describe 'ip_whitelist' do
         context 'by default' do
           it { is_expected.not_to contain_systemd__dropin_file('check_mk socket overrides').with_content(%r{IPAddressAllow}) }
         end
+
         context 'when set' do
           let(:params) do
             {
@@ -145,13 +158,13 @@ describe 'check_mk::agent::config' do
         end
 
         it do
-          is_expected.to contain_systemd__dropin_file('check_mk socket overrides').with(
+          expect(subject).to contain_systemd__dropin_file('check_mk socket overrides').with(
             unit: 'custom-check-mk-agent.socket'
           )
         end
 
         it do
-          is_expected.to contain_systemd__dropin_file('check_mk unit overrides').with(
+          expect(subject).to contain_systemd__dropin_file('check_mk unit overrides').with(
             unit: 'custom-check-mk-agent@.service'
           )
         end

@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'check_mk class' do
   packagename = case fact('os.family')
                 when 'Debian'
-                  'check-mk-raw-2.0.0p1_0.' + fact('os.distro.codename') + '_amd64.deb'
+                  "check-mk-raw-2.0.0p1_0.#{fact('os.distro.codename')}_amd64.deb"
                 when 'RedHat'
-                  'check-mk-raw-2.0.0p1-el' + fact('os.release.major') + '-38.x86_64.rpm'
+                  "check-mk-raw-2.0.0p1-el#{fact('os.release.major')}-38.x86_64.rpm"
                 end
   packagename_agent = case fact('os.family')
                       when 'Debian'
@@ -39,6 +41,7 @@ describe 'check_mk class' do
       end
     end
   end
+
   context 'minimal parameters for agent' do
     it 'works idempotently with no errors' do
       pp = <<-EOS
@@ -63,6 +66,7 @@ describe 'check_mk class' do
       its(:stderr) { is_expected.to eq '' }
     end
   end
+
   context 'with encryption_secret' do
     it 'works idempotently with no errors' do
       pp = <<-EOS
@@ -77,9 +81,11 @@ describe 'check_mk class' do
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
     end
+
     describe port(6556) do
       it { is_expected.to be_listening }
     end
+
     describe file('/etc/check_mk/encryption.cfg') do
       its(:content) { is_expected.to match %r{PASSPHRASE=mysecret} }
     end
