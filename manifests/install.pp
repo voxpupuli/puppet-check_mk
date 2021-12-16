@@ -5,7 +5,7 @@
 #
 
 class check_mk::install (
-  String $site,
+  String $monitoring_site,
   Stdlib::Absolutepath $workspace,
   Optional[String] $filestore = undef,
   Optional[Pattern[/^(check-mk-(\w*))(-|_)(\d*\.\d*\.\d*p\d*).+\.(\w+)$/]] $package = undef,
@@ -60,9 +60,9 @@ class check_mk::install (
       before => Exec['omd-create-site'],
     }
   }
-  $etc_dir = "/omd/sites/${site}/etc"
+  $etc_dir = "/omd/sites/${monitoring_site}/etc"
   exec { 'omd-create-site':
-    command => "/usr/bin/omd create ${site}",
+    command => "/usr/bin/omd create ${monitoring_site}",
     creates => $etc_dir,
   }
 }
