@@ -8,7 +8,7 @@ class check_mk::install (
   String $monitoring_site,
   Stdlib::Absolutepath $workspace,
   Optional[String] $filestore = undef,
-  Optional[Pattern[/^(check-mk-(\w*))(-|_)(\d*\.\d*\.\d*p\d*).+\.(\w+)$/]] $package = undef,
+  Optional[Pattern[/^(check-mk-(\w*))(-|_)(\d*\.\d*\.\d*[pb]\d*).+\.(\w+)$/]] $package = undef,
 ) {
   if $filestore {
     if ! defined(File[$workspace]) {
@@ -16,19 +16,21 @@ class check_mk::install (
         ensure => directory,
       }
     }
-    file { "${workspace}/${package}":
-      ensure  => file,
-      source  => "${filestore}/${package}",
-      require => File[$workspace],
+    archive { "checkmk_package_file":
+      path          => "${workspace}/${package}",
+      source        => "${filestore}/${package}",
+      user          => 'root',
+      group         => 'root',
     }
 
     # check-mk-raw-1.5.0p7_0.stretch_amd64.deb
-    if $package =~ /^(check-mk-\w*(-|_)\d*\.\d*\.\d*p\d*).+\.(\w+)$/ {
-      $type = $3
+    # check-mk-enterprise-2.0.0b3_0.buster_amd64.deb (beta)
+    if $package =~ /^(check-mk-(\w*))(-|_)(\d*\.\d*\.\d*[pb]\d*).+\.(\w+)$/ {
+      $type = $5
       $package_name = $1
 
       if $type == 'deb' {
-        package { 'gdebi':
+        package { ['gdebi', 'xz-utils']:
           ensure => present,
         }
 
@@ -43,7 +45,7 @@ class check_mk::install (
           ensure   => installed,
           provider => 'yum',
           source   => "${workspace}/${package}",
-          require  => File["${workspace}/${package}"],
+          require  => Archive['checkmk_package_file'],
           before   => Exec['omd-create-site'],
         }
       } else {
