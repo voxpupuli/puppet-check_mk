@@ -11,9 +11,9 @@ describe 'check_mk class' do
                 end
   packagename_agent = case fact('os.family')
                       when 'Debian'
-                        'check-mk-agent_2.0.0p36_all.deb'
+                        'check-mk-agent_2.0.0p36-1_all.deb'
                       when 'RedHat'
-                        'check-mk-agent-2.0.0p36.noarch.rpm'
+                        'check-mk-agent-2.0.0p36-1.noarch.rpm'
                       end
 
   context 'minimal parameters' do
@@ -37,7 +37,7 @@ describe 'check_mk class' do
 
     it 'responds with the login page' do
       shell('/usr/bin/curl http://127.0.0.1/monitoring/check_mk/login.py') do |r|
-        expect(r.stdout).to match(%r{Mathias Kettner})
+        expect(r.stdout).to match(%r{Checkmk GmbH})
       end
     end
   end
