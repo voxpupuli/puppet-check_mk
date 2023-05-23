@@ -16,9 +16,16 @@ class check_mk::params {
   case $facts['os']['family'] {
     'RedHat': {
       $httpd_service = 'httpd'
+      if versioncmp($facts['os']['release']['major'],'8') >= 0 {
+        $use_server_xinetd = false
+      }
+      else {
+        $use_server_xinetd = true
+      }
     }
     'Debian': {
       $httpd_service = 'apache2'
+      $use_server_xinetd = true
     }
     default: {
       fail("OS family ${facts['os']['family']} is not supported!")
