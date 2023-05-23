@@ -6,6 +6,8 @@ configure_beaker do |host|
   if fact_on(host, 'os.family') == 'RedHat'
     install_package(host, 'epel-release')
     install_package(host, 'nc')
+    install_package(host, 'nmap-ncat')
+  else
+    install_package(host, 'ncat')
   end
-  install_package(host, 'nmap')
 end
