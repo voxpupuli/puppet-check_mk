@@ -68,7 +68,7 @@ class check_mk::config (
     }
     concat::fragment { 'host_groups-header':
       target  => "${etc_dir}/check_mk/main.mk",
-      content => "host_groups = [\n",
+      content => "host_groups += [\n",
       order   => 20,
     }
     concat::fragment { 'host_groups-footer':
