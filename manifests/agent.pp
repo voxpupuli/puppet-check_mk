@@ -21,7 +21,7 @@ class check_mk::agent (
   Stdlib::Absolutepath $workspace = '/root/check_mk',
   String[1] $package = 'check-mk-agent',
   String[1] $package_ensure = 'present',
-  String[1] $service_name = 'check_mk',
+  String[1] $service_name = 'check-mk-agent',
   Hash $mrpe_checks = {},
   Optional[String[1]] $encryption_secret = undef,
   Array[Stdlib::IP::Address] $ip_whitelist = [],
