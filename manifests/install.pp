@@ -28,15 +28,12 @@ class check_mk::install (
       $package_name = $1
 
       if $type == 'deb' {
-        package { 'gdebi':
-          ensure => present,
-        }
-
-        exec { 'install-check-mk':
-          command => "/usr/bin/gdebi --non-interactive ${workspace}/${package}",
-          unless  => "/usr/bin/dpkg-query -W --showformat '\${Status} \${Package}\\n' | grep ${package_name} | grep -q 'install ok installed'", # lint:ignore:140chars
-          require => Package['gdebi'],
-          before  => Exec['omd-create-site'],
+        package { $package_name:
+          ensure   => installed,
+          provider => 'apt',
+          source   => "${workspace}/${package}",
+          require  => File["${workspace}/${package}"],
+          before   => Exec['omd-create-site'],
         }
       } elsif $type == 'rpm' {
         package { $package_name:
