@@ -38,7 +38,7 @@ describe 'check_mk::config' do
 
         expect(subject).to contain_concat__fragment('all_hosts-header').with(
           'target' => '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-          'content' => %r{all_hosts = \[\n},
+          'content' => %r{all_hosts += \[\n},
           'order' => 10
         )
 
@@ -95,7 +95,7 @@ describe 'check_mk::config' do
         )
         expect(subject).to contain_concat__fragment('host_groups-header').with(
           'target' => '/omd/sites/TEST_SITE/etc/check_mk/main.mk',
-          'content' => %r{host_groups = \[\n},
+          'content' => "host_groups += [\n",
           'order' => 20
         )
         expect(subject).to contain_concat__fragment('host_groups-footer').with(
