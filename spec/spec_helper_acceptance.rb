@@ -10,7 +10,6 @@ configure_beaker do |host|
     if fact_on(host, 'os.release.major') == '8'
       install_package(host, 'dnf-plugin-config-manager')
       on(host, 'dnf config-manager --set-enabled powertools')
-      on(host, 'setsebool -P httpd_can_network_connect 1')
     end
   else
     install_package(host, 'ncat')
