@@ -14,10 +14,6 @@ class check_mk::agent::config (
   Stdlib::Absolutepath       $config_dir           = $check_mk::agent::config_dir,
   String[1]                  $service_name         = $check_mk::agent::service_name,
 ) inherits check_mk::agent {
-  if versioncmp(fact('systemd_version'),'235') < 0 {
-    unless $ip_whitelist.empty { fail('ip_whitelist is only supported when using systemd version 235 and later') }
-  }
-
   if $encryption_secret {
     file { "${config_dir}/encryption.cfg":
       ensure  => file,
@@ -41,28 +37,6 @@ class check_mk::agent::config (
     $server = "${server_dir}/check_mk_agent"
   }
 
-  if $ip_whitelist.empty() {
-    $only_from = []
-  } else {
-    $only_from = ['127.0.0.1'] + $ip_whitelist
-  }
-
-  $ip_address_allow = versioncmp(fact('systemd_version'),'235') ? {
-    -1      => undef, # Don't set the parameter if the version of systemd doesn't support it
-    default => $only_from,
-  }
-
-  systemd::dropin_file { 'check_mk socket overrides':
-    filename => 'puppet.conf',
-    unit     => "${service_name}.socket",
-    content  => epp(
-      'check_mk/agent/check_mk.socket-drop-in.epp',
-      {
-        'port'             => $port,
-        'ip_address_allow' => $ip_address_allow,
-      },
-    ),
-  }
   systemd::dropin_file { 'check_mk unit overrides':
     filename => 'puppet.conf',
     unit     => "${service_name}@.service",

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'check_mk::agent::service' do
@@ -9,7 +11,7 @@ describe 'check_mk::agent::service' do
         let(:params) { { service_name: 'check_mk' } }
 
         it {
-          is_expected.to contain_service('check_mk.socket').with(
+          expect(subject).to contain_service('check_mk.socket').with(
             'ensure' => 'running',
             'enable' => true
           )
@@ -21,7 +23,7 @@ describe 'check_mk::agent::service' do
           end
 
           it do
-            is_expected.to contain_service('custom-check-mk-agent.socket')
+            expect(subject).to contain_service('custom-check-mk-agent.socket')
           end
         end
       end

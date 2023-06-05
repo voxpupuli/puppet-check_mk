@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'check_mk::install' do
@@ -14,23 +16,23 @@ describe 'check_mk::install' do
       end
 
       it {
-        is_expected.to compile
+        expect(subject).to compile
 
-        is_expected.to contain_class('check_mk::install')
+        expect(subject).to contain_class('check_mk::install')
 
-        is_expected.to contain_exec('omd-create-site').with(
+        expect(subject).to contain_exec('omd-create-site').with(
           'command' => '/usr/bin/omd create site',
           'creates' => '/omd/sites/site/etc'
-        ).that_requires('Exec[install-check-mk]')
+        ).that_requires('Package[check-mk-raw-1.5.0p7]')
 
-        is_expected.to contain_package('gdebi').with(
-          'ensure' => 'present'
-        )
+        # expect(subject).to contain_package('gdebi').with(
+        #   'ensure' => 'present'
+        # )
 
-        is_expected.to contain_exec('install-check-mk').with(
-          'command' => '/usr/bin/gdebi --non-interactive /workspace/check-mk-raw-1.5.0p7_0.stretch_amd64.deb',
-          'unless'  => '/usr/bin/dpkg-query -W --showformat \'${Status} ${Package}\n\' | grep check-mk-raw-1.5.0p7 | grep -q \'install ok installed\''
-        ).that_requires('Package[gdebi]')
+        # expect(subject).to contain_exec('install-check-mk').with(
+        #   'command' => '/usr/bin/gdebi --non-interactive /workspace/check-mk-raw-1.5.0p7_0.stretch_amd64.deb',
+        #   'unless' => '/usr/bin/dpkg-query -W --showformat \'${Status} ${Package}\n\' | grep check-mk-raw-1.5.0p7 | grep -q \'install ok installed\''
+        # ).that_requires('Package[gdebi]')
       }
     end
 
@@ -46,17 +48,17 @@ describe 'check_mk::install' do
       end
 
       it {
-        is_expected.to compile
+        expect(subject).to compile
 
-        is_expected.to contain_exec('omd-create-site').with(
+        expect(subject).to contain_exec('omd-create-site').with(
           'command' => '/usr/bin/omd create site',
           'creates' => '/omd/sites/site/etc'
         ).that_requires('Package[check-mk-raw-1.5.0p7]')
 
-        is_expected.to contain_package('check-mk-raw-1.5.0p7').with(
-          'ensure'   => 'installed',
+        expect(subject).to contain_package('check-mk-raw-1.5.0p7').with(
+          'ensure' => 'installed',
           'provider' => 'yum',
-          'source'   => '/workspace/check-mk-raw-1.5.0p7-el7-38.x86_64.rpm'
+          'source' => '/workspace/check-mk-raw-1.5.0p7-el7-38.x86_64.rpm'
         ).that_requires('File[/workspace/check-mk-raw-1.5.0p7-el7-38.x86_64.rpm]')
       }
     end

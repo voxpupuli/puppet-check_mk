@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe 'check_mk' do
   on_supported_os.each do |os, facts|
@@ -8,16 +10,19 @@ describe 'check_mk' do
 
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('check_mk') }
+
         it {
-          is_expected.to contain_class('check_mk::install').with(filestore: nil,
-                                                                 package: 'check-mk-raw-1.5.0p7-el7-38.x86_64.rpm',
-                                                                 monitoring_site: 'monitoring',
-                                                                 workspace: '/root/check_mk').that_comes_before('Class[check_mk::config]')
+          expect(subject).to contain_class('check_mk::install').with(filestore: nil,
+                                                                     package: 'check-mk-raw-1.5.0p7-el7-38.x86_64.rpm',
+                                                                     monitoring_site: 'monitoring',
+                                                                     workspace: '/root/check_mk').that_comes_before('Class[check_mk::config]')
         }
+
         it {
-          is_expected.to contain_class('check_mk::config').with(host_groups: nil,
-                                                                monitoring_site: 'monitoring').that_comes_before('Class[check_mk::service]')
+          expect(subject).to contain_class('check_mk::config').with(host_groups: nil,
+                                                                    monitoring_site: 'monitoring').that_comes_before('Class[check_mk::service]')
         }
+
         it { is_expected.to contain_class('check_mk::service') }
       end
     end
