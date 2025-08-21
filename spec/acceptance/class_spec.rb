@@ -3,17 +3,18 @@
 require 'spec_helper_acceptance'
 
 describe 'check_mk class' do
+  version = '2.4.0p10'
   packagename = case fact('os.family')
                 when 'Debian'
-                  "check-mk-raw-2.1.0p28_0.#{fact('os.distro.codename')}_amd64.deb"
+                  "check-mk-raw-#{version}_0.#{fact('os.distro.codename')}_amd64.deb"
                 when 'RedHat'
-                  "check-mk-raw-2.1.0p28-el#{fact('os.release.major')}-38.x86_64.rpm"
+                  "check-mk-raw-#{version}-el#{fact('os.release.major')}-38.x86_64.rpm"
                 end
   packagename_agent = case fact('os.family')
                       when 'Debian'
-                        'check-mk-agent_2.1.0p28-1_all.deb'
+                        "check-mk-agent_#{version}-1_all.deb"
                       when 'RedHat'
-                        'check-mk-agent-2.1.0p28-1.noarch.rpm'
+                        "check-mk-agent-#{version}-1.noarch.rpm"
                       end
 
   context 'minimal parameters' do
@@ -21,7 +22,7 @@ describe 'check_mk class' do
     it 'works idempotently with no errors' do
       pp = <<-EOS
       class { 'check_mk':
-        filestore => 'https://download.checkmk.com/checkmk/2.1.0p28/',
+        filestore => 'https://download.checkmk.com/checkmk/#{version}/',
         package   => '#{packagename}',
       }
       EOS
