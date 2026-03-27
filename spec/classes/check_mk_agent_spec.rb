@@ -19,7 +19,7 @@ describe 'check_mk::agent' do
     context 'with user set' do
       let(:params) do
         {
-          user: 'foo'
+          user: 'foo',
         }
       end
 
@@ -33,12 +33,12 @@ describe 'check_mk::agent' do
         {
           mrpe_checks: {
             check1: {
-              command: 'command1'
+              command: 'command1',
             },
             check2: {
-              command: 'command2'
-            }
-          }
+              command: 'command2',
+            },
+          },
         }
       end
 

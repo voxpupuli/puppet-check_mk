@@ -15,8 +15,8 @@ describe 'check_mk::hostgroup' do
               tag1
               tag2
             ],
-            'description' => 'TEST_DESCRIPTION'
-          }
+            'description' => 'TEST_DESCRIPTION',
+          },
         }
         let :title do
           'TEST_HOSTGROUP'
@@ -25,7 +25,7 @@ describe 'check_mk::hostgroup' do
           {
             dir: '/dir',
             hostgroups: hostgroups,
-            target: 'target'
+            target: 'target',
           }
         end
 
@@ -55,8 +55,8 @@ describe 'check_mk::hostgroup' do
             'host_tags' => %w[
               tag1
               tag2
-            ]
-          }
+            ],
+          },
         }
         let :title do
           'TEST_HOUSTGROUP_WITH_UNDERSCORES'
@@ -65,7 +65,7 @@ describe 'check_mk::hostgroup' do
           {
             dir: '/dir',
             hostgroups: hostgroups,
-            target: '/target'
+            target: '/target',
           }
         end
 

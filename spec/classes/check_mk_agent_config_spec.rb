@@ -15,14 +15,14 @@ describe 'check_mk::agent::config' do
       context 'with encryption_secret parameter set' do
         let(:params) do
           {
-            encryption_secret: 'SECRET'
+            encryption_secret: 'SECRET',
           }
         end
 
         it {
           expect(subject).to contain_file('/etc/check_mk/encryption.cfg').with(
             'ensure' => 'file',
-            'mode' => '0600'
+            'mode' => '0600',
           )
           content = catalogue.resource('file', '/etc/check_mk/encryption.cfg').parameters[:content]
           expect(content).to include("PASSPHRASE=SECRET\n")
@@ -35,7 +35,7 @@ describe 'check_mk::agent::config' do
         context 'when set' do
           let(:params) do
             {
-              server_dir: '/server_dir'
+              server_dir: '/server_dir',
             }
           end
 
@@ -63,7 +63,7 @@ describe 'check_mk::agent::config' do
         context 'when set' do
           let(:params) do
             {
-              user: 'foo'
+              user: 'foo',
             }
           end
 
@@ -77,7 +77,7 @@ describe 'check_mk::agent::config' do
         context 'when set' do
           let(:params) do
             {
-              group: 'foo'
+              group: 'foo',
             }
           end
 
@@ -89,7 +89,7 @@ describe 'check_mk::agent::config' do
         context 'when true' do
           let(:params) do
             {
-              use_cache: true
+              use_cache: true,
             }
           end
 
