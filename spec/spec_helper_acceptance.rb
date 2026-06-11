@@ -4,7 +4,12 @@ require 'voxpupuli/acceptance/spec_helper_acceptance'
 
 configure_beaker do |host|
   if fact_on(host, 'os.family') == 'RedHat'
-    install_package(host, 'epel-release')
+    if fact_on(host, 'os.name') == 'OracleLinux'
+      ver = fact_on(host, 'os.release.major')
+      install_package(host, "oracle-epel-release-el#{ver}")
+    else
+      install_package(host, 'epel-release')
+    end
     install_package(host, 'nc')
     install_package(host, 'nmap-ncat')
     if fact_on(host, 'os.release.major') == '8'
