@@ -4,6 +4,53 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [Unreleased](https://github.com/voxpupuli/puppet-check_mk/tree/HEAD)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/v0.10.0...HEAD)
+
+**Breaking changes:**
+
+- Drop Support for Agent Config Port and IP Whitelist [\#57](https://github.com/voxpupuli/puppet-check_mk/issues/57)
+- Drop Support for Ubuntu 18.04 [\#54](https://github.com/voxpupuli/puppet-check_mk/issues/54)
+- Drop Support for Debian 9 [\#53](https://github.com/voxpupuli/puppet-check_mk/issues/53)
+- drop Ubuntu 20 [\#87](https://github.com/voxpupuli/puppet-check_mk/pull/87) ([marcusdots](https://github.com/marcusdots))
+- drop el7, el8 [\#86](https://github.com/voxpupuli/puppet-check_mk/pull/86) ([marcusdots](https://github.com/marcusdots))
+- checkmk-agent download URL, drop Debian-11 [\#84](https://github.com/voxpupuli/puppet-check_mk/pull/84) ([marcusdots](https://github.com/marcusdots))
+- Drop puppet, update openvox minimum version to 8.19 [\#80](https://github.com/voxpupuli/puppet-check_mk/pull/80) ([TheMeier](https://github.com/TheMeier))
+- Refactor Module to Support Uptodate CheckMK and OSes [\#51](https://github.com/voxpupuli/puppet-check_mk/pull/51) ([voxel01](https://github.com/voxel01))
+- Drop Puppet 6 support [\#50](https://github.com/voxpupuli/puppet-check_mk/pull/50) ([bastelfreak](https://github.com/bastelfreak))
+- Drop Puppet 5 support; require 6.1.0 or newer [\#44](https://github.com/voxpupuli/puppet-check_mk/pull/44) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EOL CentOS 6/xinetd support [\#43](https://github.com/voxpupuli/puppet-check_mk/pull/43) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EOL Debian 8 support [\#36](https://github.com/voxpupuli/puppet-check_mk/pull/36) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add Support for Debian 10, 11 [\#56](https://github.com/voxpupuli/puppet-check_mk/issues/56)
+- Add Support for Ubuntu 20.04 and 22.04 [\#55](https://github.com/voxpupuli/puppet-check_mk/issues/55)
+- Add Support for RHEL/CentOS 8 and 9 [\#52](https://github.com/voxpupuli/puppet-check_mk/issues/52)
+- allow puppet-systemd 9.x [\#91](https://github.com/voxpupuli/puppet-check_mk/pull/91) ([marcusdots](https://github.com/marcusdots))
+- allow puppetlabs-concat 10.x [\#90](https://github.com/voxpupuli/puppet-check_mk/pull/90) ([marcusdots](https://github.com/marcusdots))
+- add Debian13, Ubuntu22, Ubuntu24 [\#89](https://github.com/voxpupuli/puppet-check_mk/pull/89) ([marcusdots](https://github.com/marcusdots))
+- add el10, rocky10, alma10 [\#88](https://github.com/voxpupuli/puppet-check_mk/pull/88) ([marcusdots](https://github.com/marcusdots))
+- Add support for Debian 12 [\#82](https://github.com/voxpupuli/puppet-check_mk/pull/82) ([smortex](https://github.com/smortex))
+- metadata.json: Add OpenVox [\#76](https://github.com/voxpupuli/puppet-check_mk/pull/76) ([jstraw](https://github.com/jstraw))
+- puppet/systemd: Allow 6.x [\#65](https://github.com/voxpupuli/puppet-check_mk/pull/65) ([zilchms](https://github.com/zilchms))
+- puppetlabs/concat: Allow 9.x [\#64](https://github.com/voxpupuli/puppet-check_mk/pull/64) ([zilchms](https://github.com/zilchms))
+- Add Puppet 8 support [\#60](https://github.com/voxpupuli/puppet-check_mk/pull/60) ([bastelfreak](https://github.com/bastelfreak))
+- puppetlabs/stdlib: Allow 9.x [\#59](https://github.com/voxpupuli/puppet-check_mk/pull/59) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Fix Acceptence Tests [\#58](https://github.com/voxpupuli/puppet-check_mk/issues/58)
+
+**Merged pull requests:**
+
+- puppet/systemd: allow 8.x [\#74](https://github.com/voxpupuli/puppet-check_mk/pull/74) ([jay7x](https://github.com/jay7x))
+- update puppet-systemd upper bound to 8.0.0 [\#68](https://github.com/voxpupuli/puppet-check_mk/pull/68) ([TheMeier](https://github.com/TheMeier))
+- cleanup .fixtures.yml [\#47](https://github.com/voxpupuli/puppet-check_mk/pull/47) ([bastelfreak](https://github.com/bastelfreak))
+- Allow stdlib 8.0.0 [\#46](https://github.com/voxpupuli/puppet-check_mk/pull/46) ([smortex](https://github.com/smortex))
+- switch from camptocamp/systemd to voxpupuli/systemd [\#45](https://github.com/voxpupuli/puppet-check_mk/pull/45) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v0.10.0](https://github.com/voxpupuli/puppet-check_mk/tree/v0.10.0) (2020-09-19)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/v0.9.1...v0.10.0)
