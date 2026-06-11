@@ -3,12 +3,14 @@
 require 'spec_helper_acceptance'
 
 describe 'check_mk class' do
-  version = '2.4.0p10'
+  # Derived the download URL from the link below in 2026
+  # https://checkmk.com/download?platform=cmk&distribution=ubuntu&release=resolute&edition=community&version=2.5.0p6
+  version = '2.5.0p6'
   packagename = case fact('os.family')
                 when 'Debian'
-                  "check-mk-raw-#{version}_0.#{fact('os.distro.codename')}_amd64.deb"
+                  "check-mk-community-#{version}_0.#{fact('os.distro.codename')}_amd64.deb"
                 when 'RedHat'
-                  "check-mk-raw-#{version}-el#{fact('os.release.major')}-38.x86_64.rpm"
+                  "check-mk-community-#{version}-el#{fact('os.release.major')}-38.x86_64.rpm"
                 end
   packagename_agent = case fact('os.family')
                       when 'Debian'
