@@ -18,7 +18,7 @@
       "operatingsystemrelease": [
         "8",
         "9",
-        "10",
+        "10"
       ]
     },
     {
@@ -27,7 +27,7 @@
         "7",
         "8",
         "9",
-        "10",
+        "10"
       ]
     },
     {
@@ -45,7 +45,7 @@
         "9",
         "10"
       ]
-    }
+    },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
