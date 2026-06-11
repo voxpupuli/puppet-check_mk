@@ -13,7 +13,7 @@ describe 'check_mk::agent::service' do
         it {
           expect(subject).to contain_service('check_mk.socket').with(
             'ensure' => 'running',
-            'enable' => true
+            'enable' => true,
           )
         }
 

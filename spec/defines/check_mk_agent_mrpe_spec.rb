@@ -9,7 +9,7 @@ describe 'check_mk::agent::mrpe' do
   let(:title) { 'check1' }
   let(:params) do
     {
-      command: 'command1'
+      command: 'command1',
     }
   end
 
@@ -23,7 +23,7 @@ describe 'check_mk::agent::mrpe' do
       it {
         expect(subject).to contain_concat__fragment('check1-mrpe-check').with(
           'target' => '/etc/check_mk/mrpe.cfg',
-          'content' => %r{check1 command1\n}
+          'content' => %r{check1 command1\n},
         )
       }
     end

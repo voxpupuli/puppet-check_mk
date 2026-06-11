@@ -11,7 +11,7 @@ describe 'check_mk::agent::install' do
         expect(subject).to compile
         expect(subject).to contain_package('check_mk-agent').with(
           'ensure' => 'present',
-          'name' => 'check-mk-agent'
+          'name' => 'check-mk-agent',
         )
         expect(subject).to contain_class('check_mk::agent::install')
       }
@@ -21,7 +21,7 @@ describe 'check_mk::agent::install' do
       let(:facts) { facts }
       let(:params) do
         {
-          package: 'custom-package'
+          package: 'custom-package',
         }
       end
 
@@ -29,7 +29,7 @@ describe 'check_mk::agent::install' do
         expect(subject).to compile
         expect(subject).to contain_class('check_mk::agent::install')
         expect(subject).to contain_package('check_mk-agent').with(
-          'name' => 'custom-package'
+          'name' => 'custom-package',
         )
       }
     end
@@ -38,7 +38,7 @@ describe 'check_mk::agent::install' do
       let(:facts) { facts }
       let(:params) do
         {
-          package_ensure: '1.2.8p27-1'
+          package_ensure: '1.2.8p27-1',
         }
       end
 
@@ -51,7 +51,7 @@ describe 'check_mk::agent::install' do
         {
           filestore: '/filestore',
           package: 'check-mk-agent_1.5.0p7-1_all.deb',
-          workspace: '/workspace'
+          workspace: '/workspace',
         }
       end
 
@@ -60,13 +60,13 @@ describe 'check_mk::agent::install' do
         expect(subject).to contain_class('check_mk::agent::install')
         expect(subject).to contain_file('/workspace/check-mk-agent_1.5.0p7-1_all.deb').with(
           'ensure' => 'file',
-          'source' => '/filestore/check-mk-agent_1.5.0p7-1_all.deb'
+          'source' => '/filestore/check-mk-agent_1.5.0p7-1_all.deb',
         )
         expect(subject).to contain_package('check_mk-agent').with(
           'ensure' => 'present',
           'name' => 'check-mk-agent',
           'provider' => 'dpkg',
-          'source' => '/workspace/check-mk-agent_1.5.0p7-1_all.deb'
+          'source' => '/workspace/check-mk-agent_1.5.0p7-1_all.deb',
         ).that_requires('File[/workspace/check-mk-agent_1.5.0p7-1_all.deb]')
       }
     end
