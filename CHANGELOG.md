@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v1.1.0](https://github.com/voxpupuli/puppet-check_mk/tree/v1.1.0) (2026-10-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/v1.0.0...v1.1.0)
+
+**Implemented enhancements:**
+
+- puppet/systemd: Allow 11.x [\#97](https://github.com/voxpupuli/puppet-check_mk/pull/97) ([bastelfreak](https://github.com/bastelfreak))
+- Update requirements to allow OpenVox 9 [\#96](https://github.com/voxpupuli/puppet-check_mk/pull/96) ([sebastianrakel](https://github.com/sebastianrakel))
+
 ## [v1.0.0](https://github.com/voxpupuli/puppet-check_mk/tree/v1.0.0) (2026-06-11)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-check_mk/compare/v0.10.0...v1.0.0)
